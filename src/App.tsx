@@ -1,18 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
-
-export type DataTasksType = {
-    taskId: number,
-    title: string,
-    isDone: boolean
-}
-
-export type DataType = {
-    title:string,
-    tasks:DataTasksType[],
-    students:string[]
-}
 
 export type TasksType = {
     id: number,
@@ -22,28 +10,42 @@ export type TasksType = {
 
 function App() {
     // BLL
-    const TodoListTitle = 'Whats to learn?'
-    const tasks: TasksType[] = [
-        {id: 1, title: 'HTML&CSS', isDone: false},
-        {id: 2, title: 'JS', isDone: true},
-        {id: 3, title: 'React', isDone: true},
-    ]
+
+    // const tasks2: TasksType[] = [
+    //     {id: 1, title: 'Hello world', isDone: true},
+    //     {id: 2, title: 'I am Happy', isDone: false},
+    //     {id: 3, title: 'Yo', isDone: false},
+    // ]
+    // const tasks3: TasksType[] = []
+
+    let [task, setTask] = useState<TasksType[]>([
+            {id: 1, title: 'HTML&CSS', isDone: false},
+            {id: 2, title: 'JS', isDone: true},
+            {id: 3, title: 'React', isDone: true},
+            {id: 4, title: 'Redux', isDone: false},
+            {id: 5, title: 'Typescript', isDone: false},
+            {id: 6, title: 'RTK query', isDone: false},
+        ]
+    )
+    const removeTask = (taskId: number) => {
+        let filteredTask = task.filter(t => t.id !== taskId)
+        setTask(filteredTask)
+    }
 
     return (
         <div className="App">
             <div>
-                <Todolist tasks={tasks} title={TodoListTitle}/>
+                <Todolist tasks={task} title={'Whats to learn?'} removeTask={removeTask}/>
             </div>
+            {/*<div>*/}
+            {/*    <Todolist tasks={tasks2} title={'Songs'}/>*/}
+            {/*</div>*/}
+
+            {/*<div>*/}
+            {/*    <Todolist tasks={tasks3} title={'Any Tasks'}/>*/}
+            {/*</div>*/}
         </div>
     );
 }
 
 export default App;
-
-
-// 1 создать компоненту button  прокинуть пропсы и компоненту заюзать в app + передать параметры через пропсы типа all active  и тд
-// 2 создать компоненту Task.tsx  внутри кладем li  и все содержимое, далее создадим типы  и протипизируем
-// 3 упакуем все в 3 компоненты - хедер, добавление таски и список тасок TodolistHeader, AddTaskForm, TasksList
-
-// 4 внутри TasksList пройдемся мапом по нашим таскам
-// 5 создадим компоненту Todolist и туда запихнем все компоненты + протипизировать( внутри тудулист получает tasks title)

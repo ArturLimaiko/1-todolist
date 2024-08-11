@@ -5,7 +5,7 @@ export const AddTaskForm = () => {
     return (
         <div>
             <input/>
-            <Button title='+'/>
+            <Button title='+' callBack={()=>{}}/>
         </div>
     );
 };

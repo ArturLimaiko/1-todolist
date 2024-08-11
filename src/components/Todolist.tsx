@@ -4,17 +4,18 @@ import {TasksList} from "./TasksList";
 import {TasksType} from "../App";
 import {TodolistHeader} from "./TodolistHeader";
 
-type TodolistsType = {
+type TodoListsType = {
     tasks: TasksType[]
     title: string
+    removeTask:(taskId:number) => void
 }
 
-export const Todolist = ({tasks, title}: TodolistsType) => {
+export const Todolist = ({tasks, title,removeTask}: TodoListsType) => {
     return (
         <>
             <TodolistHeader title={title}/>
             <AddTaskForm/>
-            <TasksList tasks={tasks}/>
+            <TasksList tasks={tasks} removeTask={removeTask}/>
         </>
     );
 };
