@@ -7,10 +7,10 @@ import {TodolistHeader} from "./TodolistHeader";
 type TodoListsType = {
     tasks: TasksType[]
     title: string
-    removeTask:(taskId:number) => void
+    removeTask: (id: number) => void
 }
 
-export const Todolist = ({tasks, title,removeTask}: TodoListsType) => {
+export const Todolist = ({tasks, title,removeTask,}: TodoListsType) => {
     return (
         <>
             <TodolistHeader title={title}/>

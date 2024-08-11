@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
+import {log} from "node:util";
 
 export type TasksType = {
     id: number,
@@ -18,7 +19,9 @@ function App() {
     // ]
     // const tasks3: TasksType[] = []
 
-    let [task, setTask] = useState<TasksType[]>([
+
+    let [task, setTask] = useState<TasksType[]>(
+        [
             {id: 1, title: 'HTML&CSS', isDone: false},
             {id: 2, title: 'JS', isDone: true},
             {id: 3, title: 'React', isDone: true},
@@ -27,9 +30,10 @@ function App() {
             {id: 6, title: 'RTK query', isDone: false},
         ]
     )
+
     const removeTask = (taskId: number) => {
-        let filteredTask = task.filter(t => t.id !== taskId)
-        setTask(filteredTask)
+        let filteredTask = task.filter(task => task.id !== taskId)
+        setTask(filteredTask);
     }
 
     return (

@@ -5,17 +5,17 @@ import {Button} from "./Button";
 
 type TasksListType = {
     tasks: TasksType[]
-    removeTask:(taskId:number) => void
+    removeTask: (taskId: number) => void
 }
 
-export const TasksList = ({tasks,removeTask}: TasksListType) => {
+export const TasksList = ({tasks, removeTask}: TasksListType) => {
     const tasksList =
         <ul>
             {tasks.map(t => {
                 return (
                     <li key={t.id} style={{display: 'flex', gap: '10px'}}>
-                            <Task id={t.id} title={t.title} isDone={t.isDone}/>
-                            <button onClick={() => removeTask(t.id)}> X </button>
+                        <Task id={t.id} title={t.title} isDone={t.isDone}/>
+                        <button onClick={() => removeTask(t.id)}> X</button>
                     </li>
                 )
             })}
@@ -27,9 +27,9 @@ export const TasksList = ({tasks,removeTask}: TasksListType) => {
                 <>
                     {tasksList}
                     <div>
-                        <Button title='All' callBack={()=>{}}/>
-                        <Button title='Active' callBack={()=>{}}/>
-                        <Button title='Completed' callBack={()=>{}}/>
+                        <Button title='All' onClick={() => {}}/>
+                        <Button title='Active' onClick={() => {}}/>
+                        <Button title='Completed' onClick={() => {}}/>
                     </div>
                 </>
             )
