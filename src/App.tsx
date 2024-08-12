@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
-import {log} from "node:util";
 
 export type TasksType = {
     id: number,
@@ -11,7 +10,6 @@ export type TasksType = {
 
 function App() {
     // BLL
-
     // const tasks2: TasksType[] = [
     //     {id: 1, title: 'Hello world', isDone: true},
     //     {id: 2, title: 'I am Happy', isDone: false},
@@ -19,8 +17,7 @@ function App() {
     // ]
     // const tasks3: TasksType[] = []
 
-
-    let [task, setTask] = useState<TasksType[]>(
+    let [tasks, setTasks] = useState<TasksType[]>(
         [
             {id: 1, title: 'HTML&CSS', isDone: false},
             {id: 2, title: 'JS', isDone: true},
@@ -32,14 +29,16 @@ function App() {
     )
 
     const removeTask = (taskId: number) => {
-        let filteredTask = task.filter(task => task.id !== taskId)
-        setTask(filteredTask);
+        let filteredTask = tasks.filter(task => task.id !== taskId)
+        setTasks(filteredTask);
     }
 
     return (
         <div className="App">
             <div>
-                <Todolist tasks={task} title={'Whats to learn?'} removeTask={removeTask}/>
+                <Todolist tasks={tasks}
+                          title={'Whats to learn?'}
+                          removeTask={removeTask}/>
             </div>
             {/*<div>*/}
             {/*    <Todolist tasks={tasks2} title={'Songs'}/>*/}

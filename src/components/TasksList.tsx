@@ -1,7 +1,6 @@
 import React from 'react';
 import {TasksType} from "../App";
 import {Task} from "./Task";
-import {Button} from "./Button";
 
 type TasksListType = {
     tasks: TasksType[]
@@ -15,7 +14,7 @@ export const TasksList = ({tasks, removeTask}: TasksListType) => {
                 return (
                     <li key={t.id} style={{display: 'flex', gap: '10px'}}>
                         <Task id={t.id} title={t.title} isDone={t.isDone}/>
-                        <button onClick={() => removeTask(t.id)}> X</button>
+                        <button onClick={() => removeTask(t.id)}> x </button>
                     </li>
                 )
             })}
@@ -24,14 +23,9 @@ export const TasksList = ({tasks, removeTask}: TasksListType) => {
         tasks.length === 0
             ? (<p><b>No tasks found.</b></p>)
             : (
-                <>
+                <div>
                     {tasksList}
-                    <div>
-                        <Button title='All' onClick={() => {}}/>
-                        <Button title='Active' onClick={() => {}}/>
-                        <Button title='Completed' onClick={() => {}}/>
-                    </div>
-                </>
+                </div>
             )
     );
 };

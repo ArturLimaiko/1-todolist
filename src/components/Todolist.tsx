@@ -3,6 +3,7 @@ import {AddTaskForm} from "./AddTaskForm";
 import {TasksList} from "./TasksList";
 import {TasksType} from "../App";
 import {TodolistHeader} from "./TodolistHeader";
+import {Button} from "./Button";
 
 type TodoListsType = {
     tasks: TasksType[]
@@ -16,6 +17,11 @@ export const Todolist = ({tasks, title,removeTask,}: TodoListsType) => {
             <TodolistHeader title={title}/>
             <AddTaskForm/>
             <TasksList tasks={tasks} removeTask={removeTask}/>
+            <div>
+                <Button title='All' onClick={() => {}}/>
+                <Button title='Active' onClick={() => {}}/>
+                <Button title='Completed' onClick={() => {}}/>
+            </div>
         </>
     );
 };
