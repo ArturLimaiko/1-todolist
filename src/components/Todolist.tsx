@@ -13,7 +13,6 @@ type TodoListsType = {
 }
 
 export const Todolist = ({tasks, title,removeTask,addTask}: TodoListsType) => {
-
     let tasksForTodoList = tasks
     let [filter, setFilter] = useState<FilterValuesType>('all')
     if (filter === 'active') {
@@ -28,7 +27,7 @@ export const Todolist = ({tasks, title,removeTask,addTask}: TodoListsType) => {
         tasksForTodoList = []
     }
 
-    const changeFilter = (value: FilterValuesType) => {
+    const changeFilterHandler = (value: FilterValuesType) => {
         setFilter(value)
     }
 
@@ -38,10 +37,10 @@ export const Todolist = ({tasks, title,removeTask,addTask}: TodoListsType) => {
             <AddTaskForm addTask={addTask}/>
             <TasksList tasks={tasksForTodoList} removeTask={removeTask}/>
             <div>
-                <Button title='All' onClick={() => {changeFilter('all')}}/>
-                <Button title='Active' onClick={() => {changeFilter('active')}}/>
-                <Button title='Completed' onClick={() => {changeFilter('completed')}}/>
-                <Button title={'DeleteAllTasks'} onClick={() => changeFilter('deleteAllTasks')}/>
+                <Button title='All' onClick={()=> changeFilterHandler('all')}/>
+                <Button title='Active' onClick={() => changeFilterHandler('active')} />
+                <Button title='Completed' onClick={() => changeFilterHandler('completed')}/>
+                <Button title={'DeleteAllTasks'} onClick={() => changeFilterHandler('deleteAllTasks')}/>
             </div>
         </>
     );

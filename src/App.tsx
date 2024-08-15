@@ -29,8 +29,8 @@ function App() {
         setTasks(filteredTask);
     }
 
-    const addTask = (newTitle: string) => {
-        const newTask = {id: v1(), title: newTitle, isDone: false}
+    const addTask = (taskTitle: string) => {
+        const newTask = {id: v1(), title: taskTitle, isDone: false}
         setTasks([newTask, ...tasks])
     }
 
@@ -63,6 +63,10 @@ export default App;
 //далее нужно отправить в функцию наш локальный стейт - пропишем  запускаем addTaskTitle(newTitle) , после зачищаем поле
 
 //зарефакторим код который написан внутри тегов - заметим компоненты button  просто тегами
-// для каждой кнопки создади ссылку и вынесем наверх внутренность
+// для каждой кнопки создали ссылку и вынесем наверх внутренность
 // далее заменим 3 функции - одной назовем ее changeFilterHandler , внутрь передадим changeFilter и все 3 параметра all active completed
 // далее протипизируем  в параметрах filterValuesType и в changeFilter передадим value
+//далее зарефакторим  функцию removeTask в TasksList вынесем ее наверх
+//далее зарефакторим  функцию addTask  вынесем ее наверх, создадим функцию addTaskHandler
+//далее зарефакторим  onKeyDown,вынесем ее наверх в функцию, создадим функцию onKeyDownHandler
+//далее зарефакторим  onChange ,вынесем ее наверх в функцию, создадим функцию onChangeHandler

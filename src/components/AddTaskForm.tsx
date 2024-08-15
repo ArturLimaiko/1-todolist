@@ -1,27 +1,30 @@
-import React, {useRef} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {Button} from "./Button";
 
 type AddTaskFormType = {
-    addTask: (newTitle: string) => void;
+    addTask: (taskTitle: string) => void;
 }
 
 export const AddTaskForm = ({addTask}: AddTaskFormType) => {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [taskTitle, setTaskTitle] = useState('');
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value)
+
+    const onClickHandler = () => {
+        addTask(taskTitle)
+        setTaskTitle('')
+    }
+
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            onClickHandler()
+        }
+    }
 
     return (
         <div>
-            <input ref={inputRef} onKeyDown={(e) => {
-                if (e.key === 'Enter' && inputRef.current) {
-                    addTask(inputRef.current.value);
-                    inputRef.current.value = '';
-                }
-            }}/>
-            <Button title='+' onClick={() => {
-                if (inputRef.current) {
-                    addTask(inputRef.current.value)
-                    inputRef.current.value = '';
-                }
-            }}/>
+            <input value={taskTitle} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
+            <Button title='+' onClick={onClickHandler}/>
         </div>
     );
 };
