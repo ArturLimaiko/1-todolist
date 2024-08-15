@@ -4,7 +4,7 @@ import {Task} from "./Task";
 
 type TasksListType = {
     tasks: TasksType[]
-    removeTask: (taskId: number) => void
+    removeTask: (taskId: string) => void
 }
 
 export const TasksList = ({tasks, removeTask}: TasksListType) => {

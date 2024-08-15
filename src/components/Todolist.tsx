@@ -8,10 +8,11 @@ import {Button} from "./Button";
 type TodoListsType = {
     tasks: TasksType[]
     title: string
-    removeTask: (id: number) => void
+    removeTask: (id: string) => void
+    addTask: (newTitle: string)=>void
 }
 
-export const Todolist = ({tasks, title,removeTask}: TodoListsType) => {
+export const Todolist = ({tasks, title,removeTask,addTask}: TodoListsType) => {
 
     let tasksForTodoList = tasks
     let [filter, setFilter] = useState<FilterValuesType>('all')
@@ -34,7 +35,7 @@ export const Todolist = ({tasks, title,removeTask}: TodoListsType) => {
     return (
         <>
             <TodolistHeader title={title}/>
-            <AddTaskForm/>
+            <AddTaskForm addTask={addTask}/>
             <TasksList tasks={tasksForTodoList} removeTask={removeTask}/>
             <div>
                 <Button title='All' onClick={() => {changeFilter('all')}}/>

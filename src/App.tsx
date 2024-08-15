@@ -1,59 +1,38 @@
 import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist";
+import {v1} from "uuid";
 
 export type TasksType = {
-    id: number,
+    id: string,
     title: string
     isDone: boolean
 }
-
-//Hi guys!
-//1. Let's create a 'DELETE ALL TASKS' button, and place it above the filter buttons
-//Clicking the button removes all tasks
-//2. Let's create a fourth filter button-if you click it, the first three tasks will be displayed
-//3. Relocate everything associated with  filters to the Todolist.tsx component. Make it work
-//
-// let [filter, setFilter] = useState<FilterValuesType>("all");
-//
-// let tasksForTodolist = tasks;
-//
-// if (filter === "active") {
-//     tasksForTodolist = tasks.filter(t => t.isDone === false);
-// }
-// if (filter === "completed") {
-//     tasksForTodolist = tasks.filter(t => t.isDone === true);
-// }
-//
-// function changeFilter(value: FilterValuesType) {
-//     setFilter(value);
-// }
 
 export type FilterValuesType = 'all' | 'active' | 'completed' | 'deleteAllTasks'
 
 function App() {
     // BLL
-    // const tasks2: TasksType[] = [
-    //     {id: 1, title: 'Hello world', isDone: true},
-    //     {id: 2, title: 'I am Happy', isDone: false},
-    //     {id: 3, title: 'Yo', isDone: false},
-    // ]
-    // const tasks3: TasksType[] = []
 
     let [tasks, setTasks] = useState<TasksType[]>(
         [
-            {id: 1, title: 'HTML&CSS', isDone: false},
-            {id: 2, title: 'JS', isDone: true},
-            {id: 3, title: 'React', isDone: true},
-            {id: 4, title: 'Redux', isDone: false},
-            {id: 5, title: 'Typescript', isDone: false},
-            {id: 6, title: 'RTK query', isDone: false},
+            {id: v1(), title: 'HTML&CSS', isDone: false},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'React', isDone: true},
+            {id: v1(), title: 'Redux', isDone: false},
+            {id: v1(), title: 'Typescript', isDone: false},
+            {id: v1(), title: 'RTK query', isDone: false},
         ]
     )
 
-    const removeTask = (taskId: number) => {
+    const removeTask = (taskId: string) => {
         let filteredTask = tasks.filter(task => task.id !== taskId)
         setTasks(filteredTask);
+    }
+
+    const addTask = (newTitle: string) => {
+        const newTask = {id: v1(), title: newTitle, isDone: false}
+        setTasks([newTask, ...tasks])
     }
 
     return (
@@ -62,17 +41,29 @@ function App() {
                 <Todolist tasks={tasks}
                           title={'Whats to learn?'}
                           removeTask={removeTask}
+                          addTask={addTask}
                 />
             </div>
-            {/*<div>*/}
-            {/*    <Todolist tasks={tasks2} title={'Songs'}/>*/}
-            {/*</div>*/}
-
-            {/*<div>*/}
-            {/*    <Todolist tasks={tasks3} title={'Any Tasks'}/>*/}
-            {/*</div>*/}
         </div>
     );
 }
 
 export default App;
+
+// 3 неделя
+// инсталим uuid библиотеку
+// функция addTask  - туда сначала добавим переменную и присвоим ей новый объект newTask{} - затем сетаем новые таски и старые
+// addTask() функцию прокинем в button который + , не забудем обернуть ее колбеком который вызовет ее
+// в тудулисте создадим inputRef и протипизируем ( это будет HTMLInputElement) в параметрах укажем (null)
+// прокинуть ref={inputRef} в  инпут
+// далее вместо title: ''  передадим inputRef внутрь фукнции addTask и напишем условие если inputRef.current  то тогда
+// вызывай addTask(inputRef.current.value) - это значит типа если инпут не пустой тогда передавай значение
+
+//далее делаем что бы при нажатии на кнопку   enter у нас отправлялась таска
+// в инпуте вызывает событие onkeydown - внутри вызываем колбек event и вызываем  event.key === 'Enter'
+//далее нужно отправить в функцию наш локальный стейт - пропишем  запускаем addTaskTitle(newTitle) , после зачищаем поле
+
+//зарефакторим код который написан внутри тегов - заметим компоненты button  просто тегами
+// для каждой кнопки создади ссылку и вынесем наверх внутренность
+// далее заменим 3 функции - одной назовем ее changeFilterHandler , внутрь передадим changeFilter и все 3 параметра all active completed
+// далее протипизируем  в параметрах filterValuesType и в changeFilter передадим value
