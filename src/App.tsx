@@ -13,7 +13,6 @@ export type FilterValuesType = 'all' | 'active' | 'completed' | 'deleteAllTasks'
 
 function App() {
     // BLL
-
     let [tasks, setTasks] = useState<TasksType[]>(
         [
             {id: v1(), title: 'HTML&CSS', isDone: false},
