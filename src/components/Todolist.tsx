@@ -10,9 +10,10 @@ type TodoListsType = {
     title: string
     removeTask: (id: string) => void
     addTask: (newTitle: string)=>void
+    changeStatus:(taskID: string,isDone:boolean) => void
 }
 
-export const Todolist = ({tasks, title,removeTask,addTask}: TodoListsType) => {
+export const Todolist = ({tasks, title,removeTask,addTask,changeStatus}: TodoListsType) => {
     let tasksForTodoList = tasks
     let [filter, setFilter] = useState<FilterValuesType>('all')
     if (filter === 'active') {
@@ -31,11 +32,12 @@ export const Todolist = ({tasks, title,removeTask,addTask}: TodoListsType) => {
         setFilter(value)
     }
 
+
     return (
         <>
             <TodolistHeader title={title}/>
             <AddTaskForm addTask={addTask}/>
-            <TasksList tasks={tasksForTodoList} removeTask={removeTask}/>
+            <TasksList tasks={tasksForTodoList} removeTask={removeTask} changeStatus={changeStatus}/>
             <div>
                 <Button title='All' onClick={()=> changeFilterHandler('all')}/>
                 <Button title='Active' onClick={() => changeFilterHandler('active')} />

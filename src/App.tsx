@@ -7,6 +7,7 @@ export type TasksType = {
     id: string,
     title: string
     isDone: boolean
+    changeStatus?:(taskID: string,isDone:boolean) => void
 }
 
 export type FilterValuesType = 'all' | 'active' | 'completed' | 'deleteAllTasks'
@@ -24,14 +25,18 @@ function App() {
         ]
     )
 
-    const removeTask = (taskId: string) => {
-        let filteredTask = tasks.filter(task => task.id !== taskId)
+    const removeTask = (taskID: string) => {
+        let filteredTask = tasks.filter(task => task.id !== taskID)
         setTasks(filteredTask);
     }
 
     const addTask = (taskTitle: string) => {
         const newTask = {id: v1(), title: taskTitle, isDone: false}
         setTasks([newTask, ...tasks])
+    }
+
+    const changeStatus = (taskID: string,isDone:boolean) => {
+        setTasks(tasks.map(t => t.id === taskID ? {...t,isDone}: t))
     }
 
     return (
@@ -41,6 +46,7 @@ function App() {
                           title={'Whats to learn?'}
                           removeTask={removeTask}
                           addTask={addTask}
+                          changeStatus={changeStatus}
                 />
             </div>
         </div>
