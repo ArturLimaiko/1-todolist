@@ -4,6 +4,7 @@ import {TasksList} from "./TasksList";
 import {FilterValuesType, TasksType} from "../App";
 import {TodolistHeader} from "./TodolistHeader";
 import {Button} from "./Button";
+import s from "./todolist.module.css";
 
 type TodoListsType = {
     tasks: TasksType[]
@@ -15,7 +16,8 @@ type TodoListsType = {
 
 export const Todolist = ({tasks, title,removeTask,addTask,changeStatus}: TodoListsType) => {
     let tasksForTodoList = tasks
-    let [filter, setFilter] = useState<FilterValuesType>('all')
+    const [filter, setFilter] = useState<FilterValuesType>('all')
+    const [nameButton , setNameButton] = useState('all')
     if (filter === 'active') {
         tasksForTodoList = tasks.filter(t => !t.isDone)
     }
@@ -30,8 +32,8 @@ export const Todolist = ({tasks, title,removeTask,addTask,changeStatus}: TodoLis
 
     const changeFilterHandler = (value: FilterValuesType) => {
         setFilter(value)
+        setNameButton(value)
     }
-
 
     return (
         <>
@@ -39,10 +41,10 @@ export const Todolist = ({tasks, title,removeTask,addTask,changeStatus}: TodoLis
             <AddTaskForm addTask={addTask}/>
             <TasksList tasks={tasksForTodoList} removeTask={removeTask} changeStatus={changeStatus}/>
             <div>
-                <Button title='All' onClick={()=> changeFilterHandler('all')}/>
-                <Button title='Active' onClick={() => changeFilterHandler('active')} />
-                <Button title='Completed' onClick={() => changeFilterHandler('completed')}/>
-                <Button title={'DeleteAllTasks'} onClick={() => changeFilterHandler('deleteAllTasks')}/>
+                <Button className = {nameButton === 'all' ? s.activeFilter : ''} title='all' onClick={()=> changeFilterHandler('all')}/>
+                <Button className = {nameButton === 'active' ? s.activeFilter : ''} title='active' onClick={() => changeFilterHandler('active')} />
+                <Button className = {nameButton === 'completed' ? s.activeFilter : ''} title='completed' onClick={() => changeFilterHandler('completed')}/>
+                <Button className = {nameButton === 'deleteAllTasks' ? s.activeFilter : ''} title={'deleteAllTasks'} onClick={() => changeFilterHandler('deleteAllTasks')}/>
             </div>
         </>
     );

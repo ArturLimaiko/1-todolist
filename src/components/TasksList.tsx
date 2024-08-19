@@ -1,21 +1,22 @@
 import React from 'react';
 import {TasksType} from "../App";
 import {Task} from "./Task";
+import s from './todolist.module.css';
 
 type TasksListType = {
     tasks: TasksType[]
     removeTask: (taskId: string) => void
-    changeStatus:(taskID: string,isDone:boolean) => void
+    changeStatus: (taskID: string, isDone: boolean) => void
 }
 
-export const TasksList = ({tasks, removeTask,changeStatus}: TasksListType) => {
+export const TasksList = ({tasks, removeTask, changeStatus}: TasksListType) => {
     const tasksList =
         <ul>
             {tasks.map(t => {
                 return (
-                    <li key={t.id} style={{display: 'flex', gap: '10px'}}>
+                    <li key={t.id} style={{display: 'flex', gap: '10px'}} className={t.isDone ? s.isDone : ''}>
                         <Task id={t.id} title={t.title} isDone={t.isDone} changeStatus={changeStatus}/>
-                        <button onClick={() => removeTask(t.id)}> x </button>
+                        <button onClick={() => removeTask(t.id)}> x</button>
                     </li>
                 )
             })}

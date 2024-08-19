@@ -8,6 +8,7 @@ export type TasksType = {
     title: string
     isDone: boolean
     changeStatus?:(taskID: string,isDone:boolean) => void
+    className?:string
 }
 
 export type FilterValuesType = 'all' | 'active' | 'completed' | 'deleteAllTasks'
