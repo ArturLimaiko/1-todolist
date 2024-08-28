@@ -8,6 +8,7 @@
 }
 
 .error {
+  outline: none;
   border: red 1px solid;
 }
 

@@ -4,23 +4,25 @@ import {Button} from "./Button";
 
 type PropsType = {
 	title: string
-	tasks: TaskType[]
-	removeTask: (taskId: string) => void
-	changeFilter: (filter: FilterValuesType) => void
-	addTask: (title: string) => void
-	changeTaskStatus: (taskId: string, taskStatus: boolean) => void
+	todolistId:string
 	filter: FilterValuesType
+	tasks: TaskType[]
+	removeTask: (taskId: string,todolistId:string) => void
+	changeFilter: (filter: FilterValuesType,todolistId:string) => void
+	addTask: (title: string,todolistId:string) => void
+	changeTaskStatus: (taskId: string, taskStatus: boolean,todolistId:string) => void
+	removeTodolist:(todolistId:string) => void
 }
 
 export const Todolist = (props: PropsType) => {
-	const {title, tasks, filter, removeTask, changeFilter, addTask, changeTaskStatus} = props
+	const {title,todolistId,filter, tasks, removeTask, changeFilter, addTask, changeTaskStatus,removeTodolist} = props
 
 	const [taskTitle, setTaskTitle] = useState('')
 	const [error, setError] = useState<string | null>(null)
 
 	const addTaskHandler = () => {
 		if (taskTitle.trim() !== '') {
-			addTask(taskTitle.trim())
+			addTask(taskTitle.trim(), todolistId)
 			setTaskTitle('')
 		} else {
 			setError('Title is required')
@@ -39,16 +41,22 @@ export const Todolist = (props: PropsType) => {
 	}
 
 	const changeFilterTasksHandler = (filter: FilterValuesType) => {
-		changeFilter(filter)
+		changeFilter(filter,todolistId)
+	}
+
+	const deleteTodoHandler = () => {
+		removeTodolist(todolistId)
 	}
 
 	return (
 		<div>
-			<h3>{title}</h3>
-			<div>
-				<input
-					className={error ? 'error': ''}
-					value={taskTitle}
+            <h3>{title}
+                <button onClick={() => deleteTodoHandler}> x</button>
+            </h3>
+            <div>
+                <input
+                    className={error ? 'error' : ''}
+                    value={taskTitle}
 					onChange={changeTaskTitleHandler}
 					onKeyUp={addTaskOnKeyUpHandler}
 				/>
@@ -62,12 +70,12 @@ export const Todolist = (props: PropsType) => {
 						{tasks.map((task) => {
 
 							const removeTaskHandler = () => {
-								removeTask(task.id)
+								removeTask(task.id,todolistId)
 							}
 
 							const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
 								const newStatusValue = e.currentTarget.checked
-								changeTaskStatus(task.id, newStatusValue)
+								changeTaskStatus(task.id, newStatusValue,todolistId)
 							}
 
 							return <li key={task.id} className={task.isDone ? 'is-done' : ''}>
