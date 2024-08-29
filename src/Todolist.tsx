@@ -44,14 +44,10 @@ export const Todolist = (props: PropsType) => {
 		changeFilter(filter,todolistId)
 	}
 
-	const deleteTodoHandler = () => {
-		removeTodolist(todolistId)
-	}
-
 	return (
 		<div>
             <h3>{title}
-                <button onClick={() => deleteTodoHandler}> x</button>
+                <button onClick={() => removeTodolist(todolistId)}> x</button>
             </h3>
             <div>
                 <input
