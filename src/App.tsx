@@ -7,7 +7,7 @@ import ButtonAppBar from "./ButtonAppBar";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
-import {bgBG} from "@mui/material/locale";
+import {createTheme, ThemeProvider} from "@mui/material";
 
 export type TaskType = { id: string, title: string, isDone: boolean }
 
@@ -82,7 +82,6 @@ function App() {
         setTodoLists(todoLists.map(t => t.id === todolistId ? {...t, title: updatedTitle} : t))
     }
 
-
     const todoListsComp: JSX.Element[] = todoLists.map(t => {
         let tasksForTodolist = tasks[t.id]
         if (t.filter === 'active') {
@@ -113,22 +112,27 @@ function App() {
             </Grid>
         )
     })
+
+    const theme = createTheme({});
+
     return (
         <div className="App">
-            <Container fixed>
-                <Grid>
-                    <ButtonAppBar/>
+            <ThemeProvider theme={theme}>
+                <Container fixed>
+                    <Grid>
+                        <ButtonAppBar/>
 
-                    <Grid container>
-                        <AddItemForm addItem={addTodoList}/>
+                        <Grid container>
+                            <AddItemForm addItem={addTodoList}/>
+                        </Grid>
+
+                        <Grid container spacing={2}>
+                            {todoListsComp}
+                        </Grid>
+
                     </Grid>
-
-                    <Grid container spacing={2}>
-                        {todoListsComp}
-                    </Grid>
-
-                </Grid>
-            </Container>
+                </Container>
+            </ThemeProvider>
         </div>
     );
 }
