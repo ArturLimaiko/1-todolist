@@ -117,11 +117,12 @@ function App() {
         )
     })
 
-    const [themeMode, setThemeMode] = useState<ThemeModeType>('light')
+    const [themeMode, setThemeMode] = useState<ThemeModeType>('dark')
 
     const theme = createTheme({
         palette: {
-            mode: themeMode === 'light' ? 'light' : 'dark',
+            // mode: themeMode === 'light' ? 'light' : 'dark',
+            mode: themeMode === 'dark' ? 'dark' : 'light',
             primary: {
                 main: '#087EA4'
             }
@@ -129,7 +130,8 @@ function App() {
     });
 
     const changeModeHandler = () => {
-        setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+        // setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+        setThemeMode(themeMode == 'dark' ? 'light' : 'dark')
     }
 
     return (
