@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Box from "@mui/material/Box";
+import {FilterButtonContainerSx, getListItemSx} from "./Todolist.styles";
 
 type PropsType = {
     title: string
@@ -60,8 +62,6 @@ export const Todolist = (props: PropsType) => {
                 <IconButton aria-label="delete" size="small" onClick={() => removeTodolist(todolistId)}>
                     <DeleteIcon fontSize="inherit"/>
                 </IconButton>
-
-
             </h3>
             <AddItemForm addItem={addTaskHandler}/>
             {
@@ -79,11 +79,13 @@ export const Todolist = (props: PropsType) => {
                                 changeTaskStatus(task.id, newStatusValue, todolistId)
                             }
 
-                            return <ListItem key={task.id} className={task.isDone ? 'is-done' : ''}>
-                                <Checkbox defaultChecked color="default" size='small' checked={task.isDone}
-                                          onChange={changeTaskStatusHandler}/>
-                                <EditableSpan oldTitle={task.title}
-                                              onClick={(updateTitle) => updateTaskTitleHandler(task.id, updateTitle)}/>
+                            return <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
+                                <div>
+                                    <Checkbox defaultChecked color="default" size='small' checked={task.isDone}
+                                              onChange={changeTaskStatusHandler}/>
+                                    <EditableSpan oldTitle={task.title}
+                                                  onClick={(updateTitle) => updateTaskTitleHandler(task.id, updateTitle)}/>
+                                </div>
                                 <IconButton aria-label="delete" size="small" onClick={removeTaskHandler}>
                                     <DeleteIcon fontSize="inherit"/>
                                 </IconButton>
@@ -92,12 +94,14 @@ export const Todolist = (props: PropsType) => {
                     </List>
             }
             <div>
-                <Button variant={filter === 'all' ? 'contained' : 'outlined'} color="success"
-                        onClick={() => changeFilterTasksHandler('all')}>all</Button>
-                <Button variant={filter === 'active' ? 'contained' : 'outlined'} color="secondary"
-                        onClick={() => changeFilterTasksHandler('active')}>active</Button>
-                <Button variant={filter === 'completed' ? 'contained' : 'outlined'} color="error"
-                        onClick={() => changeFilterTasksHandler('completed')}>completed</Button>
+                <Box sx={FilterButtonContainerSx}>
+                    <Button variant={filter === 'all' ? 'contained' : 'outlined'} color="success"
+                            onClick={() => changeFilterTasksHandler('all')}>all</Button>
+                    <Button variant={filter === 'active' ? 'contained' : 'outlined'} color="secondary"
+                            onClick={() => changeFilterTasksHandler('active')}>active</Button>
+                    <Button variant={filter === 'completed' ? 'contained' : 'outlined'} color="error"
+                            onClick={() => changeFilterTasksHandler('completed')}>completed</Button>
+                </Box>
             </div>
         </div>
     )
