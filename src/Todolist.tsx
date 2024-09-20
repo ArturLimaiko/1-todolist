@@ -3,6 +3,8 @@ import {ChangeEvent} from "react";
 import {Button} from "./Button";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type PropsType = {
 	title: string
@@ -51,7 +53,11 @@ export const Todolist = (props: PropsType) => {
 	return (
 		<div>
             <h3><EditableSpan oldTitle={title} onClick={updateTodolistTitleHandler}/>
-                <button onClick={() => removeTodolist(todolistId)}> x</button>
+				<IconButton aria-label="delete" size="small" onClick={() => removeTodolist(todolistId)}>
+					<DeleteIcon fontSize="inherit" />
+				</IconButton>
+
+
             </h3>
 			<AddItemForm addItem={addTaskHandler}/>
 			{
@@ -72,7 +78,9 @@ export const Todolist = (props: PropsType) => {
                             return <li key={task.id} className={task.isDone ? 'is-done' : ''}>
 								<input type="checkbox" checked={task.isDone} onChange={changeTaskStatusHandler}/>
 								<EditableSpan oldTitle={task.title} onClick={(updateTitle) => updateTaskTitleHandler(task.id, updateTitle)}/>
-								<Button onClick={removeTaskHandler} title={'x'}/>
+								<IconButton aria-label="delete" size="small" onClick={removeTaskHandler}>
+									<DeleteIcon fontSize="inherit" />
+								</IconButton>
 							</li>
 						})}
 					</ul>
