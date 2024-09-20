@@ -7,7 +7,9 @@ import ButtonAppBar from "./ButtonAppBar";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
-import {createTheme, ThemeProvider} from "@mui/material";
+import {createTheme,ThemeProvider} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+
 
 export type TaskType = { id: string, title: string, isDone: boolean }
 
@@ -16,6 +18,8 @@ export type TodoListType = { id: string, title: string, filter: FilterValuesType
 export type TasksStateType = { [todolistId: string]: TaskType[] }
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
+
+export type ThemeModeType = 'dark' | 'light'
 
 const todolistId_1 = v1()
 const todolistId_2 = v1()
@@ -113,14 +117,27 @@ function App() {
         )
     })
 
-    const theme = createTheme({});
+    const [themeMode, setThemeMode] = useState<ThemeModeType>('light')
+
+    const theme = createTheme({
+        palette: {
+            mode: themeMode === 'light' ? 'light' : 'dark',
+            primary: {
+                main: '#087EA4'
+            }
+        }
+    });
+
+    const changeModeHandler = () => {
+        setThemeMode(themeMode == 'light' ? 'dark' : 'light')
+    }
 
     return (
         <div className="App">
             <ThemeProvider theme={theme}>
                 <Container fixed>
                     <Grid>
-                        <ButtonAppBar/>
+                        <ButtonAppBar onChange={changeModeHandler}/>
 
                         <Grid container>
                             <AddItemForm addItem={addTodoList}/>
@@ -132,6 +149,7 @@ function App() {
 
                     </Grid>
                 </Container>
+                <CssBaseline />
             </ThemeProvider>
         </div>
     );

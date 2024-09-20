@@ -5,15 +5,15 @@ type MenuButtonProps = {
     background?: string
 };
 
-export const MenuButton = styled(Button)<MenuButtonProps>(({background})=>({
+export const MenuButton = styled(Button)<MenuButtonProps>(({background, theme})=>({
     minWidth: '110',
     fontWeight: 'bold',
-    boxShadow: '0 0 0 2px #054B62, 4px 4px 0 0 #054B62',
+    boxShadow: `0 0 0 2px ${theme.palette.primary.dark}, 4px 4px 0 0 ${theme.palette.primary.dark}`,
     borderRadius: '2px',
     textTransform: 'capitalize',
     margin: '0 10px',
     padding: '8px 24px',
-    color: '#ffffff',
-    backgroundColor: background || '#1565c0',
+    color: theme.palette.primary.contrastText,
+    backgroundColor: background || theme.palette.primary.light,
     //ставь background , а если ничего не прилетело то ставь '#1565c0' этот цвет
 }));
