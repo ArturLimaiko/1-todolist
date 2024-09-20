@@ -1,11 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 export type AddItemFormType = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = ({addItem}:AddItemFormType) => {
+export const AddItemForm = ({addItem}: AddItemFormType) => {
 
     const [itemTitle, setItemTitle] = useState('')
     const [error, setError] = useState<string | null>(null)
@@ -28,24 +29,27 @@ export const AddItemForm = ({addItem}:AddItemFormType) => {
         setItemTitle(event.currentTarget.value)
     }
 
-    const ButtonStyle =  {
-        maxWidth: '30px',
-        maxHeight: '30px',
-        minWidth:'30px',
-        minHeight:'30px',
+    const ButtonStyle = {
+        maxWidth: '38px',
+        maxHeight: '38px',
+        minWidth: '38px',
+        minHeight: '38px',
     }
 
     return (
         <div>
-            <input
-                className={error ? 'error' : ''}
-                value={itemTitle}
-                onChange={changeItemTitleHandler}
-                onKeyUp={addItemOnKeyUpHandler}
+            <TextField id="outlined-basic" label={error ? error : 'Type something...'} variant="outlined"
+                // первый ! перебивает типизацию - то есть стрингу превращает в булево
+                // второй ! делаем  противоположное значение от false - true
+                       error={!!error}
+                       size={'small'}
+                       className={error ? 'error' : ''}
+                       value={itemTitle}
+                       onChange={changeItemTitleHandler}
+                       onKeyUp={addItemOnKeyUpHandler}
             />
             <Button variant="contained" onClick={addItemHandler}
-                    style ={ButtonStyle}>+</Button>
-            {error && <div className={'error-message'}>{error}</div> }
+                    style={ButtonStyle}>+</Button>
         </div>
     );
 };

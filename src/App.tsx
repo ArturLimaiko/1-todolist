@@ -3,6 +3,7 @@ import {Todolist} from "./Todolist";
 import {useState} from "react";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import ButtonAppBar from "./ButtonAppBar";
 
 export type TaskType = { id: string, title: string, isDone: boolean }
 
@@ -101,6 +102,7 @@ function App() {
 
     return (
         <div className="App">
+            <ButtonAppBar/>
             <AddItemForm addItem={addTodoList}/>
             {todoListsComp}
         </div>

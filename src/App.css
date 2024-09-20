@@ -1,26 +1,26 @@
 .App {
-  padding: 30px;
-  display: flex;
+  /*padding: 30px;*/
+  /*display: flex;*/
 }
 
-.App > div {
-  margin-right: 50px;
-}
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
 
-.error {
-  outline: none;
-  border: red 1px solid;
-  font-family: Roboto, sans-serif;
-}
+/*.error {*/
+/*  outline: none;*/
+/*  border: red 1px solid;*/
+/*  font-family: Roboto, sans-serif;*/
+/*}*/
 
-.error-message {
-  color: red;
-}
+/*.error-message {*/
+/*  color: red;*/
+/*}*/
 
-.active-filter {
-  background-color: lightgreen;
-}
+/*.active-filter {*/
+/*  background-color: lightgreen;*/
+/*}*/
 
-.is-done {
-  opacity: 0.5;
-}
+/*.is-done {*/
+/*  opacity: 0.5;*/
+/*}*/
