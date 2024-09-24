@@ -86,3 +86,32 @@ test('correct todolist should change its name', () => {
     expect(endState[1].title).toBe(action.payload.updatedTitle)
     expect(endState[0].title).toBe('Whats to learn ?')
 })
+
+test('correct filter of todolist should be  changed', () => {
+
+    const todolistId_1 = v1()
+    const todolistId_2 = v1()
+
+    //стартовый стейт
+    const startState: TodoListType[] = [
+        {id: todolistId_1, title: 'Whats to learn ?', filter: 'all'},
+        {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
+    ]
+
+    //какое то действие
+    const action = {
+        type: 'CHANGE-TODOLIST-FILTER',
+        payload: {
+            filter: 'active',
+            todolistId: todolistId_1
+        }
+    } as const
+
+    //итоговый стейт
+    const endState = todolistReducer(startState, action)
+
+    // проверка  что наши действия в стейте соответствуют ожиданию -
+    // в массиве останется один тудулист
+    expect(endState[0].filter).toBe(action.payload.filter)
+    expect(endState[1].filter).toBe('all')
+})
