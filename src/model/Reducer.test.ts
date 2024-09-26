@@ -1,8 +1,14 @@
 import {v1} from "uuid";
 import {TodoListType} from "../App";
-import {todolistReducer} from "./Reducer";
+import {
+    addTodolistAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
+    todolistReducer
+} from "./Reducer";
 
-test('correct todolist should be remover', () => {
+test('correct todolist should be removed', () => {
 
     const todolistId_1 = v1()
     const todolistId_2 = v1()
@@ -13,21 +19,14 @@ test('correct todolist should be remover', () => {
         {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
     ]
 
-    //какое то действие
-    const action = {
-        type: 'REMOVE-TODOLIST',
-        payload: {
-            id: todolistId_1,
-        }
-    } as const
-
     //итоговый стейт
-    const endState = todolistReducer(startState, action)
+    const endState = todolistReducer(startState, removeTodolistAC(todolistId_2))
 
     // проверка  что наши действия в стейте соответствуют ожиданию -
     // в массиве останется один тудулист
     expect(endState.length).toBe(1)
-    expect(endState[0].id).toBe(todolistId_2)
+    expect(endState[1]).toBe(undefined)
+    expect(endState[0].id).toBe(todolistId_1)
 })
 
 test('correct todolist should be added', () => {
@@ -41,21 +40,13 @@ test('correct todolist should be added', () => {
         {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
     ]
 
-    //какое то действие
-    const action = {
-        type: 'ADD-TODOLIST',
-        payload: {
-            title: 'New Todo',
-        }
-    } as const
-
     //итоговый стейт
-    const endState = todolistReducer(startState, action)
+    const endState = todolistReducer(startState, addTodolistAC('New Todo'))
 
     // проверка  что наши действия в стейте соответствуют ожиданию -
     // в массиве останется один тудулист
     expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe(action.payload.title)
+    expect(endState[2].title).toBe('New Todo')
 })
 
 test('correct todolist should change its name', () => {
@@ -69,21 +60,13 @@ test('correct todolist should change its name', () => {
         {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
     ]
 
-    //какое то действие
-    const action = {
-        type: 'CHANGE-TODOLIST-TITLE',
-        payload: {
-            todolistId: todolistId_2,
-            updatedTitle: 'New Title Todo'
-        }
-    } as const
 
     //итоговый стейт
-    const endState = todolistReducer(startState, action)
+    const endState = todolistReducer(startState, changeTodolistTitleAC(todolistId_2, 'New Title'))
 
     // проверка  что наши действия в стейте соответствуют ожиданию -
     // в массиве останется один тудулист
-    expect(endState[1].title).toBe(action.payload.updatedTitle)
+    expect(endState[1].title).toBe('New Title')
     expect(endState[0].title).toBe('Whats to learn ?')
 })
 
@@ -98,20 +81,11 @@ test('correct filter of todolist should be  changed', () => {
         {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
     ]
 
-    //какое то действие
-    const action = {
-        type: 'CHANGE-TODOLIST-FILTER',
-        payload: {
-            filter: 'active',
-            todolistId: todolistId_1
-        }
-    } as const
-
     //итоговый стейт
-    const endState = todolistReducer(startState, action)
+    const endState = todolistReducer(startState, changeTodolistFilterAC(todolistId_1, 'active'))
 
     // проверка  что наши действия в стейте соответствуют ожиданию -
     // в массиве останется один тудулист
-    expect(endState[0].filter).toBe(action.payload.filter)
+    expect(endState[0].filter).toBe('active')
     expect(endState[1].filter).toBe('all')
 })
