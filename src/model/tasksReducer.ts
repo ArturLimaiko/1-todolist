@@ -3,10 +3,11 @@ import {v1} from "uuid";
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 export type AddTaskACType = ReturnType<typeof addTaskAC>
-export type changeTaskStatusAC = ReturnType<typeof changeTaskStatusAC>
+export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
+export type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
 
 //все типы action
-export type ActionsType = RemoveTaskACType | AddTaskACType | changeTaskStatusAC
+export type ActionsType = RemoveTaskACType | AddTaskACType | changeTaskStatusACType | changeTaskTitleACType
 
 export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -30,6 +31,12 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
                     .map(t => t.id === action.taskId ? {...t, isDone: action.isDone} : t)
             }
         }
+        case 'CHANGE-TASK-TITLE':
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId]
+                    .map(t => t.id === action.taskId ? {...t, title: action.newTitle} : t)
+            }
         default:
             throw new Error('Unknown action type')
     }
@@ -45,4 +52,8 @@ export const addTaskAC = (todolistId: string, title: string) => {
 
 export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean) => {
     return {type: 'CHANGE-TASK-STATUS', todolistId, taskId, isDone} as const
+}
+
+export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: string) => {
+    return {type: 'CHANGE-TASK-TITLE', todolistId, taskId, newTitle} as const
 }
