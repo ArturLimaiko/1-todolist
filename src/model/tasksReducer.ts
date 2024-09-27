@@ -1,24 +1,23 @@
-import {TaskStateType} from "../App";
+import {TasksStateType} from "../App";
 
-export let initialTaskState: TaskStateType = {}
+export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 
-export const taskReducer = (state: initialTaskState, action: TaskReducerACType):TaskStateType=> {
+//все типы action
+export type ActionsType = RemoveTaskACType
+
+export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
-        case 'REMOVE-TASK':
-            // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)})
+        case 'REMOVE-TASK': {
+            // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)}// если таска не равна => добавь ( иначе удалит)
             return {
-                ...state, [action.todolistId]: state[action.todolistId]
-                    .filter(t => t.id !== action.taskID)
+                ...state,
+                [action.todolistId]: state[action.todolistId].filter(f => f.id !== action.taskId)
             }
-        default:
-            return state
+        }
+        default: throw new Error('Unknown action type')
     }
 }
 
-type TaskReducerACType = RemoveTaskAC
-
-
-type RemoveTaskAC = ReturnType<typeof removeTaskAC>
 export const removeTaskAC = (taskId: string, todolistId: string) => {
-    return {type: 'REMOVE-TASK', taskId, todolistId}
+    return {type: 'REMOVE-TASK', taskId, todolistId} as const
 }
