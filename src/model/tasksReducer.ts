@@ -49,7 +49,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             return {
                 ...state,
                 [action.todolistId]: []
-                //создали пустой тудулист
+                //создали пустой тудулист []
             }
         case 'REMOVE-TODOLIST': {
             // let copyState = {...state}
