@@ -1,5 +1,12 @@
 import {TasksStateType} from "../App";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
+import {
+    addTaskAC,
+    AddTodolistAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    tasksReducer
+} from "./tasksReducer";
 
 test('correct tasks should be deleted from correct array', () => {
     //стартовый стейт
@@ -114,4 +121,40 @@ test('title of specified task should be changed', () => {
     // в нужном массиве добавится нужная таска
     expect(endState['todolistId2'][2].title).toBe('TypeScript')
     expect(endState['todolistId2'][2]).toEqual({id: '3', title: 'TypeScript', isDone: true})
+})
+
+test('new array should be added when new todolist is added', () => {
+    //стартовый стейт
+    const startState: TasksStateType = {
+        'todolistId1': [
+            {id: '1', title: 'HTML&CSS', isDone: true},
+            {id: '2', title: 'JS', isDone: true},
+            {id: '3', title: 'ReactJS', isDone: false},
+        ],
+        'todolistId2': [
+            {id: '1', title: 'NextJs', isDone: false},
+            {id: '2', title: 'StoryBook', isDone: true},
+            {id: '3', title: 'TS', isDone: true},
+        ]
+    }
+
+    //итоговый стейт
+    const action = AddTodolistAC('new todolist')
+    const endState = tasksReducer(startState, action)
+
+    //возвращает массив ключей объекта.
+    // в нашем случае вернет ['todolistId1', 'todolistId2', 'newTodolistId']
+    const keys = Object.keys(endState)
+
+    //find ищет первый элемент, удовлетворяющий условию внутри функции-колбэка
+    //В этом случае find ищет ключ, который не равен 'todolistId1' и не равен 'todolistId2'.
+    //Если в массиве ключей найдется такой ключ (например, 'newTodolistId'), то он будет сохранён в переменной newKey.
+    const newKey = keys.find(k => k != 'todolistId1' && k != 'todolistId2');
+    if (!newKey) {
+        throw Error('New key should be added')
+    }
+    //если не найден, генерируется ошибка с сообщением 'New key should be added'.
+
+    expect(keys.length).toBe(3)
+    expect(endState[newKey]).toEqual([])
 })

@@ -1,13 +1,21 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
+import {removeTodolistACType} from "./Reducer";
 
 export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
 export type AddTaskACType = ReturnType<typeof addTaskAC>
 export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
 export type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
+export type AddTodolistACType = ReturnType<typeof AddTodolistAC>
 
 //все типы action
-export type ActionsType = RemoveTaskACType | AddTaskACType | changeTaskStatusACType | changeTaskTitleACType
+export type ActionsType =
+    RemoveTaskACType
+    | AddTaskACType
+    | changeTaskStatusACType
+    | changeTaskTitleACType
+    | AddTodolistACType
+    | removeTodolistACType
 
 export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -37,6 +45,19 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
                 [action.todolistId]: state[action.todolistId]
                     .map(t => t.id === action.taskId ? {...t, title: action.newTitle} : t)
             }
+        case 'ADD-TODOLIST':
+            return {
+                ...state,
+                [action.todolistId]: []
+                //создали пустой тудулист
+            }
+        case 'REMOVE-TODOLIST': {
+            // let copyState = {...state}
+            // delete copyState[action.todolistId]
+            // return copyState
+            const {[action.todolistId]: [], ...rest} = state
+            return rest
+        }
         default:
             throw new Error('Unknown action type')
     }
@@ -56,4 +77,8 @@ export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: b
 
 export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: string) => {
     return {type: 'CHANGE-TASK-TITLE', todolistId, taskId, newTitle} as const
+}
+
+export const AddTodolistAC = (title: string) => {
+    return {type: 'ADD-TODOLIST', title, todolistId: v1()} as const
 }
