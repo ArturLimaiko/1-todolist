@@ -86,7 +86,6 @@ function App() {
         setTodoLists(todoLists.map(t => t.id === todolistId ? {...t, filter: filter} : t))
     }
 
-
     const todoListsComp: JSX.Element[] = todoLists.map(t => {
         let tasksForTodolist = tasks[t.id]
         if (t.filter === 'active') {

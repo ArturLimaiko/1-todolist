@@ -1,5 +1,4 @@
 import './App.css';
-import {Todolist} from "./Todolist";
 import {useState} from "react";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
@@ -12,6 +11,7 @@ import {addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodo
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {AppRootStateType} from "./state/state";
 import {useDispatch, useSelector} from "react-redux";
+import {TodolistWithRedux} from "./TodolistWithRedux";
 
 
 export type TaskType = { id: string, title: string, isDone: boolean }
@@ -26,7 +26,7 @@ export type ThemeModeType = 'dark' | 'light'
 
 function AppWithReducers() {
     let todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolist)
-    let tasks = useSelector<AppRootStateType, TasksStateType>(state=> state.tasks)
+    let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     //присваиваем переменной метод useDispatch() и прокинем его в каждую функцию
     //а он дальше сам разберется куда прокидывать
@@ -49,13 +49,11 @@ function AppWithReducers() {
     }
 
     const removeTodolist = (todolistId: string) => {
-        const action = removeTodolistAC(todolistId)
-        dispatch(action)
+        dispatch(removeTodolistAC(todolistId))
     }
 
     const addTodoList = (title: string) => {
-        const action = addTodolistAC(title)
-        dispatch(action)
+        dispatch(addTodolistAC(title))
     }
 
     const updateTodolistTitle = (todolistId: string, updatedTitle: string) => {
@@ -68,30 +66,11 @@ function AppWithReducers() {
 
     const todoListsComp: JSX.Element[] = todolists.map(t => {
         let tasksForTodolist = tasks[t.id]
-        if (t.filter === 'active') {
-            tasksForTodolist = tasksForTodolist.filter(task => !task.isDone)
-        }
-        if (t.filter === 'completed') {
-            tasksForTodolist = tasksForTodolist.filter(task => task.isDone)
-        }
 
         return (
-            <Grid sx={{p: '30px'}}>
+            <Grid sx={{p: '30px'}} key={t.id}>
                 <Paper elevation={5} sx={{p: '30px'}}>
-                    <Todolist
-                        key={t.id}
-                        todolistId={t.id}
-                        title={t.title}
-                        tasks={tasksForTodolist}
-                        filter={t.filter}
-                        removeTask={removeTask}
-                        removeTodolist={removeTodolist}
-                        changeFilter={changeFilter}
-                        addTask={addTask}
-                        changeTaskStatus={changeTaskStatus}
-                        updateTaskTitle={updateTaskTitle}
-                        updateTodolistTitle={updateTodolistTitle}
-                    />
+                    <TodolistWithRedux todolists={t}/>
                 </Paper>
             </Grid>
         )
@@ -128,7 +107,6 @@ function AppWithReducers() {
                         <Grid container spacing={2}>
                             {todoListsComp}
                         </Grid>
-
                     </Grid>
                 </Container>
                 <CssBaseline/>
