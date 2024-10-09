@@ -1,14 +1,6 @@
 import {v1} from "uuid";
 import {FilterValuesType, TodoListType} from "../App";
 
-const todolistId_1 = v1()
-const todolistId_2 = v1()
-
-export const initialState: TodoListType[] = [
-    {id: todolistId_1, title: 'Whats to learn ?', filter: 'all'},
-    {id: todolistId_2, title: 'What to bye ?', filter: 'active'},
-]
-
 export type removeTodolistACType = {
     type: 'REMOVE-TODOLIST',
     todolistId: string
@@ -38,7 +30,9 @@ export type ActionsType =
     | changeTodolistTitleACType
     | changeTodolistFilterACType
 
-export const todolistReducer = (state = initialState, action: ActionsType): TodoListType[] => {
+const initialState: TodoListType[] = []
+
+export const todolistReducer = (state:TodoListType[] = initialState, action: ActionsType): TodoListType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             //до этого мы еще удаляли и таски так сказать подчищали а сейчас нужно ли это?

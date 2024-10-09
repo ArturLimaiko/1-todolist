@@ -17,7 +17,11 @@ export type ActionsType =
     | AddTodolistACType
     | removeTodolistACType
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+//инициализационное состояние что бы  при первом запуске редакс его видел
+//значение которое вернется из нашего reducer'a.
+const initialState: TasksStateType = {}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             //если таска не равна => добавь ( иначе удалит)
@@ -59,7 +63,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             return rest
         }
         default:
-            throw new Error('Unknown action type')
+            return state
     }
 }
 

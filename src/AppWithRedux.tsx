@@ -53,23 +53,19 @@ function AppWithReducers() {
     })
 
     const removeTask = (taskId: string, todolistId: string) => {
-        const action = removeTaskAC(taskId, todolistId)
-        dispatchToTasks(action)
+        dispatchToTasks(removeTaskAC(taskId, todolistId))
     }
 
     const changeTaskStatus = (taskId: string, todolistId: string, taskStatus: boolean) => {
-        const action = changeTaskStatusAC(taskId, todolistId, taskStatus,)
-        dispatchToTasks(action)
+        dispatchToTasks(changeTaskStatusAC(taskId, todolistId, taskStatus))
     }
 
     const addTask = (todolistId: string, title: string) => {
-        const action = addTaskAC(todolistId, title)
-        dispatchToTasks(action)
+        dispatchToTasks(addTaskAC(todolistId, title))
     }
 
     const updateTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
-        const action = changeTaskTitleAC(todolistId, taskId, newTitle)
-        dispatchToTasks(action)
+        dispatchToTasks(changeTaskTitleAC(todolistId, taskId, newTitle))
     }
 
     const removeTodolist = (todolistId: string) => {
@@ -85,15 +81,12 @@ function AppWithReducers() {
     }
 
     const updateTodolistTitle = (todolistId: string, updatedTitle: string) => {
-        const action = changeTodolistTitleAC(todolistId, updatedTitle)
-        dispatchToTodolists(action)
+        dispatchToTodolists(changeTodolistTitleAC(todolistId, updatedTitle))
     }
 
     const changeFilter = (todolistId: string, filter: FilterValuesType) => {
-        const action = changeTodolistFilterAC(todolistId, filter)
-        dispatchToTodolists(action)
+        dispatchToTodolists(changeTodolistFilterAC(todolistId, filter))
     }
-
 
     const todoListsComp: JSX.Element[] = todolist.map(t => {
         let tasksForTodolist = tasks[t.id]

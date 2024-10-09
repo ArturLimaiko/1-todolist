@@ -1,4 +1,4 @@
-import {FilterValuesType, TaskType} from "./App";
+import {FilterValuesType, TaskType} from "./AppWithReducers";
 import {ChangeEvent} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -17,9 +17,9 @@ type PropsType = {
     filter: FilterValuesType
     tasks: TaskType[]
     removeTask: (taskId: string, todolistId: string) => void
-    changeFilter: (filter: FilterValuesType, todolistId: string) => void
+    changeFilter: (todolistId: string,filter: FilterValuesType ) => void
     addTask: (title: string, todolistId: string) => void
-    changeTaskStatus: (taskId: string, taskStatus: boolean, todolistId: string) => void
+    changeTaskStatus: (taskId: string, todolistId: string,taskStatus: boolean) => void
     removeTodolist: (todolistId: string) => void
     updateTaskTitle: (todolistId: string, taskId: string, updatedTitle: string) => void
     updateTodolistTitle: (todolistId: string, updatedTitle: string) => void
@@ -41,7 +41,7 @@ export const Todolist = (props: PropsType) => {
     } = props
 
     const changeFilterTasksHandler = (filter: FilterValuesType) => {
-        changeFilter(filter, todolistId)
+        changeFilter(todolistId, filter)
     }
 
     const addTaskHandler = (title: string) => {
@@ -76,7 +76,7 @@ export const Todolist = (props: PropsType) => {
 
                             const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                                 const newStatusValue = e.currentTarget.checked
-                                changeTaskStatus(task.id, newStatusValue, todolistId)
+                                changeTaskStatus(task.id,todolistId,newStatusValue)
                             }
 
                             return <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
