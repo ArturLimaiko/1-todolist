@@ -6,11 +6,13 @@ import {
     changeTaskTitleAC,
     removeTaskAC,
     tasksReducer
-} from "./tasksReducer";
+} from "./tasks-reducer";
 
-test('correct tasks should be deleted from correct array', () => {
-    //стартовый стейт
-    const startState: TasksStateType = {
+let startState: TasksStateType
+
+beforeEach(() => {
+    //стартовый стейт для всех тестов
+    startState = {
         'todolistId1': [
             {id: '1', title: 'HTML&CSS', isDone: true},
             {id: '2', title: 'JS', isDone: true},
@@ -22,7 +24,9 @@ test('correct tasks should be deleted from correct array', () => {
             {id: '3', title: 'TS', isDone: true},
         ]
     }
+})
 
+test('correct tasks should be deleted from correct array', () => {
     //итоговый стейт
     const action = removeTaskAC('2', 'todolistId2')
     const endState = tasksReducer(startState, action)
@@ -44,20 +48,6 @@ test('correct tasks should be deleted from correct array', () => {
 })
 
 test('correct tasks should be added from correct array', () => {
-    //стартовый стейт
-    const startState: TasksStateType = {
-        'todolistId1': [
-            {id: '1', title: 'HTML&CSS', isDone: true},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'ReactJS', isDone: false},
-        ],
-        'todolistId2': [
-            {id: '1', title: 'NextJs', isDone: false},
-            {id: '2', title: 'StoryBook', isDone: true},
-            {id: '3', title: 'TS', isDone: true},
-        ]
-    }
-
     //итоговый стейт
     const action = addTaskAC('todolistId1', 'JQuery')
     const endState = tasksReducer(startState, action)
@@ -72,20 +62,6 @@ test('correct tasks should be added from correct array', () => {
 })
 
 test('status of specified task should be  changed', () => {
-    //стартовый стейт
-    const startState: TasksStateType = {
-        'todolistId1': [
-            {id: '1', title: 'HTML&CSS', isDone: true},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'ReactJS', isDone: false},
-        ],
-        'todolistId2': [
-            {id: '1', title: 'NextJs', isDone: false},
-            {id: '2', title: 'StoryBook', isDone: true},
-            {id: '3', title: 'TS', isDone: true},
-        ]
-    }
-
     //итоговый стейт
     const action = changeTaskStatusAC('todolistId2', '1', true)
     const endState = tasksReducer(startState, action)
@@ -124,26 +100,12 @@ test('title of specified task should be changed', () => {
 })
 
 test('new array should be added when new todolist is added', () => {
-    //стартовый стейт
-    const startState: TasksStateType = {
-        'todolistId1': [
-            {id: '1', title: 'HTML&CSS', isDone: true},
-            {id: '2', title: 'JS', isDone: true},
-            {id: '3', title: 'ReactJS', isDone: false},
-        ],
-        'todolistId2': [
-            {id: '1', title: 'NextJs', isDone: false},
-            {id: '2', title: 'StoryBook', isDone: true},
-            {id: '3', title: 'TS', isDone: true},
-        ]
-    }
-
     //итоговый стейт
     const action = AddTodolistAC('new todolist')
     const endState = tasksReducer(startState, action)
 
     //возвращает массив ключей объекта.
-    // в нашем случае вернет ['todolistId1', 'todolistId2', 'newTodolistId']
+    //в нашем случае вернет ['todolistId1', 'todolistId2', 'newTodolistId']
     const keys = Object.keys(endState)
 
     //find ищет первый элемент, удовлетворяющий условию внутри функции-колбэка

@@ -6,18 +6,25 @@ import {
     changeTodolistTitleAC,
     removeTodolistAC,
     todolistReducer
-} from "./Reducer";
+} from "./todolist-reducer";
 
-test('correct todolist should be removed', () => {
+let startState: TodoListType[]
+let todolistId_1: string
+let todolistId_2: string
 
-    const todolistId_1 = v1()
-    const todolistId_2 = v1()
+//инициализируется перед каждый тестом с этими данными
+beforeEach(() => {
+    todolistId_1 = v1()
+    todolistId_2 = v1()
 
-    //стартовый стейт
-    const startState: TodoListType[] = [
+    //стартовый стейт для всех тестов
+    startState = [
         {id: todolistId_1, title: 'Whats to learn ?', filter: 'all'},
         {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
     ]
+})
+
+test('correct todolist should be removed', () => {
 
     //итоговый стейт
     const endState = todolistReducer(startState, removeTodolistAC(todolistId_2))
@@ -30,15 +37,8 @@ test('correct todolist should be removed', () => {
 })
 
 test('correct todolist should be added', () => {
-
-    const todolistId_1 = v1()
-    const todolistId_2 = v1()
-
     //стартовый стейт
-    const startState: TodoListType[] = [
-        {id: todolistId_1, title: 'Whats to learn ?', filter: 'all'},
-        {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
-    ]
+    //из бефорич
 
     //итоговый стейт
     const endState = todolistReducer(startState, addTodolistAC('New Todo'))
@@ -50,17 +50,6 @@ test('correct todolist should be added', () => {
 })
 
 test('correct todolist should change its name', () => {
-
-    const todolistId_1 = v1()
-    const todolistId_2 = v1()
-
-    //стартовый стейт
-    const startState: TodoListType[] = [
-        {id: todolistId_1, title: 'Whats to learn ?', filter: 'all'},
-        {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
-    ]
-
-
     //итоговый стейт
     const endState = todolistReducer(startState, changeTodolistTitleAC(todolistId_2, 'New Title'))
 
@@ -71,16 +60,6 @@ test('correct todolist should change its name', () => {
 })
 
 test('correct filter of todolist should be  changed', () => {
-
-    const todolistId_1 = v1()
-    const todolistId_2 = v1()
-
-    //стартовый стейт
-    const startState: TodoListType[] = [
-        {id: todolistId_1, title: 'Whats to learn ?', filter: 'all'},
-        {id: todolistId_2, title: 'What to bye ?', filter: 'all'},
-    ]
-
     //итоговый стейт
     const endState = todolistReducer(startState, changeTodolistFilterAC(todolistId_1, 'active'))
 

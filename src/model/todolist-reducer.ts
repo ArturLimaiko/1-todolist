@@ -32,7 +32,7 @@ export type changeTodolistFilterACType = {
     todolistId: string
 }
 
-type ActionsType =
+export type ActionsType =
     | removeTodolistACType
     | addTodolistACType
     | changeTodolistTitleACType
