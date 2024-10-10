@@ -68,12 +68,12 @@ export const TodolistWithRedux = ({todolists}: PropsType) => {
                             }
                             const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                                 const newStatusValue = e.currentTarget.checked
-                                dispatch(changeTaskStatusAC(task.id,id,newStatusValue))
+                                dispatch(changeTaskStatusAC(id,task.id,newStatusValue))
                             }
 
                             return <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
                                 <div>
-                                    <Checkbox defaultChecked color="default" size='small' checked={task.isDone}
+                                    <Checkbox color="default" size='small' checked={task.isDone}
                                               onChange={changeTaskStatusHandler}/>
                                     <EditableSpan oldTitle={task.title}
                                                   onClick={(updateTitle) => updateTaskTitleHandler(task.id, updateTitle)}/>

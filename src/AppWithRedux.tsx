@@ -26,7 +26,6 @@ export type ThemeModeType = 'dark' | 'light'
 
 function AppWithReducers() {
     let todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolist)
-    let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     //присваиваем переменной метод useDispatch() и прокинем его в каждую функцию
     //а он дальше сам разберется куда прокидывать
@@ -36,8 +35,8 @@ function AppWithReducers() {
         dispatch(removeTaskAC(taskId, todolistId))
     }
 
-    const changeTaskStatus = (taskId: string, todolistId: string, taskStatus: boolean) => {
-        dispatch(changeTaskStatusAC(taskId, todolistId, taskStatus))
+    const changeTaskStatus = (todolistId: string, taskId: string, taskStatus: boolean) => {
+        dispatch(changeTaskStatusAC(todolistId, taskId, taskStatus))
     }
 
     const addTask = (todolistId: string, title: string) => {
@@ -64,9 +63,8 @@ function AppWithReducers() {
         dispatch(changeTodolistFilterAC(todolistId, filter))
     }
 
+    //вынес отдельно .map тудулистов в переменную и использую ее  ниже
     const todoListsComp: JSX.Element[] = todolists.map(t => {
-        let tasksForTodolist = tasks[t.id]
-
         return (
             <Grid sx={{p: '30px'}} key={t.id}>
                 <Paper elevation={5} sx={{p: '30px'}}>
@@ -76,8 +74,8 @@ function AppWithReducers() {
         )
     })
 
+    //state и переключение темы
     const [themeMode, setThemeMode] = useState<ThemeModeType>('dark')
-
     const theme = createTheme({
         palette: {
             // mode: themeMode === 'light' ? 'light' : 'dark',
@@ -87,7 +85,6 @@ function AppWithReducers() {
             }
         }
     });
-
     const changeModeHandler = () => {
         // setThemeMode(themeMode == 'light' ? 'dark' : 'light')
         setThemeMode(themeMode == 'dark' ? 'light' : 'dark')
@@ -99,11 +96,9 @@ function AppWithReducers() {
                 <Container fixed>
                     <Grid>
                         <ButtonAppBar onChange={changeModeHandler}/>
-
                         <Grid container>
                             <AddItemForm addItem={addTodoList}/>
                         </Grid>
-
                         <Grid container spacing={2}>
                             {todoListsComp}
                         </Grid>
