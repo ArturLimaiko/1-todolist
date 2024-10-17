@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import Container from '@mui/material/Container';
@@ -24,46 +24,47 @@ export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export type ThemeModeType = 'dark' | 'light'
 
-function AppWithReducers() {
+function AppWithRedux() {
     let todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolist)
 
     //присваиваем переменной метод useDispatch() и прокинем его в каждую функцию
     //а он дальше сам разберется куда прокидывать
     const dispatch = useDispatch()
 
-    const removeTask = (taskId: string, todolistId: string) => {
+    const removeTask = useCallback( (taskId: string, todolistId: string) => {
         dispatch(removeTaskAC(taskId, todolistId))
-    }
+    } , [dispatch])
 
-    const changeTaskStatus = (todolistId: string, taskId: string, taskStatus: boolean) => {
+    const changeTaskStatus = useCallback( (todolistId: string, taskId: string, taskStatus: boolean) => {
         dispatch(changeTaskStatusAC(todolistId, taskId, taskStatus))
-    }
+    } , [dispatch])
 
-    const addTask = (todolistId: string, title: string) => {
+    const addTask = useCallback( (todolistId: string, title: string) => {
         dispatch(addTaskAC(todolistId, title))
-    }
+    },[dispatch])
 
-    const updateTaskTitle = (todolistId: string, taskId: string, newTitle: string) => {
+    const updateTaskTitle = useCallback( (todolistId: string, taskId: string, newTitle: string) => {
         dispatch(changeTaskTitleAC(todolistId, taskId, newTitle))
-    }
+    } , [dispatch])
 
-    const removeTodolist = (todolistId: string) => {
+    const removeTodolist = useCallback( (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
-    }
+    } , [dispatch])
 
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback ((title: string) => {
         dispatch(addTodolistAC(title))
-    }
+    }, [dispatch])
 
-    const updateTodolistTitle = (todolistId: string, updatedTitle: string) => {
+    const updateTodolistTitle = useCallback( (todolistId: string, updatedTitle: string) => {
         dispatch(changeTodolistTitleAC(todolistId, updatedTitle))
-    }
+    } , [dispatch])
 
-    const changeFilter = (todolistId: string, filter: FilterValuesType) => {
+    const changeFilter = useCallback( (todolistId: string, filter: FilterValuesType) => {
         dispatch(changeTodolistFilterAC(todolistId, filter))
-    }
+    } , [dispatch])
 
     //вынес отдельно .map тудулистов в переменную и использую ее  ниже
+    //маппинг создаёт массив JSX-элементов,
     const todoListsComp: JSX.Element[] = todolists.map(t => {
         return (
             <Grid sx={{p: '30px'}} key={t.id}>
@@ -110,4 +111,4 @@ function AppWithReducers() {
     );
 }
 
-export default AppWithReducers;
+export default AppWithRedux;
