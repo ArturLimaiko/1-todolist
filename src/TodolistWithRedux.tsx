@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./state/todolist-reducer";
 import {ButtonWithMemo} from "./ButtonWithMemo";
+import {TaskWithRedux} from "./TaskWithRedux";
 
 export type PropsType = {
     todolists: TodoListType
@@ -63,25 +64,14 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
                     ? <p>Тасок нет</p>
                     : <List>
                         {tasks.map((task) => {
-                            const removeTaskHandler = () => {
-                                dispatch(removeTaskAC(task.id, id))
-                            }
-                            const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                                const newStatusValue = e.currentTarget.checked
-                                dispatch(changeTaskStatusAC(id, task.id, newStatusValue))
-                            }
+                            return (
+                                <TaskWithRedux key={task.id}
+                                               task={task}
+                                               todolistId={task.id}
+                                               updateTaskTitleHandler={updateTaskTitleHandler}
 
-                            return <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
-                                <div>
-                                    <Checkbox color="default" size='small' checked={task.isDone}
-                                              onChange={changeTaskStatusHandler}/>
-                                    <EditableSpan oldTitle={task.title}
-                                                  onClick={(updateTitle) => updateTaskTitleHandler(task.id, updateTitle)}/>
-                                </div>
-                                <IconButton aria-label="delete" size="small" onClick={removeTaskHandler}>
-                                    <DeleteIcon fontSize="inherit"/>
-                                </IconButton>
-                            </ListItem>
+                                />
+                            )
                         })}
                     </List>
             }

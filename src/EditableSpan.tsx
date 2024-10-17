@@ -1,11 +1,12 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, memo, useState} from 'react';
 
 export type EditableSpanType = {
     oldTitle: string
     onClick: (updateTitle: string) => void
 }
 
-export const EditableSpan = ({oldTitle, onClick}: EditableSpanType) => {
+export const EditableSpan =
+    memo(({oldTitle, onClick}: EditableSpanType) => {
     const [edit, setEdit] = useState(false)
     const [updateTitle, setUpdateTitle] = useState(oldTitle)
 
@@ -25,4 +26,4 @@ export const EditableSpan = ({oldTitle, onClick}: EditableSpanType) => {
             ? <input onBlur={editHandler} value={updateTitle} onChange={updateTitleHandler} autoFocus/>
             : <span onDoubleClick={editHandler}>{oldTitle}</span>
     );
-};
+});
