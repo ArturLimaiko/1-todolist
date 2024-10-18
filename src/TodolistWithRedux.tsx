@@ -4,11 +4,9 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Checkbox from '@mui/material/Checkbox';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import Box from "@mui/material/Box";
-import {FilterButtonContainerSx, getListItemSx} from "./Todolist.styles";
+import {FilterButtonContainerSx} from "./Todolist.styles";
 import {TodoListType} from "./AppWithRedux";
 import {AppRootStateType} from "./state/state";
 import {useDispatch, useSelector} from "react-redux";
@@ -37,10 +35,19 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
 
     const updateTodolistTitleHandler = useCallback((updateTitle: string) => {
         dispatch(changeTodolistTitleAC(id, updateTitle))
-    }, [dispatch])
+    }, [])
 
     const updateTaskTitleHandler = useCallback((taskId: string, newTitle: string) => {
         dispatch(changeTaskTitleAC(id, taskId, newTitle))
+    }, [dispatch])
+
+    const removeTaskHandler = useCallback((taskId: string, todolistId: string) => {
+        dispatch(removeTaskAC(todolistId,taskId))
+    }, [dispatch])
+
+    const changeTaskStatusHandler = useCallback((todolistId: string, taskId: string, e: ChangeEvent<HTMLInputElement>) => {
+        const newStatusValue = e.currentTarget.checked
+        dispatch(changeTaskStatusAC(todolistId, taskId, newStatusValue))
     }, [dispatch])
 
     //фильтрация тасок
@@ -66,10 +73,11 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
                         {tasks.map((task) => {
                             return (
                                 <TaskWithRedux key={task.id}
-                                               task={task}
-                                               todolistId={task.id}
+                                               taskId={task.id}
+                                               todolistId={id}
                                                updateTaskTitleHandler={updateTaskTitleHandler}
-
+                                               removeTaskHandler={removeTaskHandler}
+                                               changeTaskStatusHandler={changeTaskStatusHandler}
                                 />
                             )
                         })}
