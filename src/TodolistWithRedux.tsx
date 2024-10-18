@@ -1,5 +1,5 @@
 import {FilterValuesType, TaskType} from "./AppWithReducers";
-import {ChangeEvent, memo, useCallback} from "react";
+import {ChangeEvent, memo, useCallback, useMemo} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
@@ -42,7 +42,7 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
     }, [dispatch])
 
     const removeTaskHandler = useCallback((taskId: string, todolistId: string) => {
-        dispatch(removeTaskAC(todolistId,taskId))
+        dispatch(removeTaskAC(todolistId, taskId))
     }, [dispatch])
 
     const changeTaskStatusHandler = useCallback((todolistId: string, taskId: string, e: ChangeEvent<HTMLInputElement>) => {
@@ -50,13 +50,17 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
         dispatch(changeTaskStatusAC(todolistId, taskId, newStatusValue))
     }, [dispatch])
 
-    //фильтрация тасок
-    if (filter === 'active') {
-        tasks = tasks.filter(task => !task.isDone)
-    }
-    if (filter === 'completed') {
-        tasks = tasks.filter(task => task.isDone)
-    }
+    tasks = useMemo(() => {
+        console.log('UseMemo')
+        //фильтрация тасок
+        if (filter === 'active') {
+            tasks = tasks.filter(task => !task.isDone)
+        }
+        if (filter === 'completed') {
+            tasks = tasks.filter(task => task.isDone)
+        }
+        return tasks
+    }, [tasks, filter])
 
     return (
         <div>
@@ -70,10 +74,10 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
                 tasks.length === 0
                     ? <p>Тасок нет</p>
                     : <List>
-                        {tasks.map((task) => {
+                        {tasks.map((t) => {
                             return (
-                                <TaskWithRedux key={task.id}
-                                               taskId={task.id}
+                                <TaskWithRedux key={t.id}
+                                               taskId={t.id}
                                                todolistId={id}
                                                updateTaskTitleHandler={updateTaskTitleHandler}
                                                removeTaskHandler={removeTaskHandler}
