@@ -50,7 +50,7 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
         dispatch(changeTaskStatusAC(todolistId, taskId, newStatusValue))
     }, [dispatch])
 
-    tasks = useMemo(() => {
+    let filteredTasks = useMemo(() => {
         console.log('UseMemo')
         //фильтрация тасок
         if (filter === 'active') {
@@ -71,10 +71,10 @@ export const TodolistWithRedux = memo(({todolists}: PropsType) => {
             </h3>
             <AddItemForm addItem={addTaskHandler}/>
             {
-                tasks.length === 0
+                filteredTasks.length === 0
                     ? <p>Тасок нет</p>
                     : <List>
-                        {tasks.map((t) => {
+                        {filteredTasks.map((t) => {
                             return (
                                 <TaskWithRedux key={t.id}
                                                taskId={t.id}
