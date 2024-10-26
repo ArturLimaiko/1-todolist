@@ -1,17 +1,19 @@
 import './App.css';
-import {useCallback, useState} from "react";
+import {useCallback} from "react";
 import {AddItemForm} from "./AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid2';
 import Paper from '@mui/material/Paper';
-import {createTheme, ThemeProvider} from "@mui/material";
+import {ThemeProvider} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import {addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./state/todolist-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {AppRootStateType} from "./state/state";
 import {useDispatch, useSelector} from "react-redux";
 import {TodolistWithRedux} from "./TodolistWithRedux";
+import {changeThemeAC, ThemeMode} from "./state/changeTheme-reducer";
+import {getTheme} from "./common/theme/theme";
 
 export type TaskType = { id: string, title: string, isDone: boolean }
 
@@ -21,12 +23,15 @@ export type TasksStateType = { [todolistId: string]: TaskType[] }
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
-export type ThemeModeType = 'dark' | 'light'
 
 function AppWithRedux() {
     //в дженерике - 1 параметр тип стейта с которым работает , 2ой - тип то что мы хотим вернуть из нашего селектора - в нашем случае массив TodoListType
     //внутри в колбеке лежит наш стейт
     let todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolist)
+
+    let changeTheme = useSelector<AppRootStateType, ThemeMode> (state=> state.changeTheme.themeMode)
+
+    const theme = getTheme(changeTheme);
 
     //присваиваем переменной метод useDispatch()-хук, прокинем его в каждую функцию
     //а он дальше сам разберется куда прокидывать
@@ -76,20 +81,8 @@ function AppWithRedux() {
         )
     })
 
-    //state и переключение темы
-    const [themeMode, setThemeMode] = useState<ThemeModeType>('dark')
-    const theme = createTheme({
-        palette: {
-            // mode: themeMode === 'light' ? 'light' : 'dark',
-            mode: themeMode === 'dark' ? 'dark' : 'light',
-            primary: {
-                main: '#087EA4'
-            }
-        }
-    });
     const changeModeHandler = () => {
-        // setThemeMode(themeMode == 'light' ? 'dark' : 'light')
-        setThemeMode(themeMode == 'dark' ? 'light' : 'dark')
+        dispatch(changeThemeAC())
     }
 
     return (

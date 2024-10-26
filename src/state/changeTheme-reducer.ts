@@ -4,11 +4,11 @@ export type ThemeMode = 'dark' | 'light'
 
 // Определяем тип для начального состояния редьюсера.
 // Используем typeof initialState, чтобы автоматически задать тип по структуре initialState.
-type InitialState = typeof initialState
+export type InitialState = typeof initialState
 
 // Начальное состояние для редьюсера.
 // Устанавливаем начальное значение themeMode в 'dark'.
-const initialState = {
+export const initialState = {
     themeMode: 'dark' as ThemeMode,
 }
 
@@ -29,7 +29,7 @@ export const changeThemeReducer = (
         case 'CHANGE-THEME':
             return {
                 ...state,
-                themeMode: state.themeMode === 'dark' ? 'dark' : 'light'
+                themeMode: state.themeMode === 'dark' ? 'light' : 'dark'
             }
         default:
             return state
@@ -41,5 +41,5 @@ export const changeThemeReducer = (
 // Этот объект можно отправить (dispatch) в редьюсер, чтобы изменить значение themeMode.
 // Используем `as const`, чтобы TypeScript точно знал, что type всегда равен 'CHANGE-THEME'.
 export const changeThemeAC = () => {
-    return {type: 'CHANGE-THEME' } as const
+    return {type: 'CHANGE-THEME'} as const
 }
