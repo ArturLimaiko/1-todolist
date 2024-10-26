@@ -29,7 +29,8 @@ export const changeThemeReducer = (
         case 'CHANGE-THEME':
             return {
                 ...state,
-                themeMode: state.themeMode === 'dark' ? 'light' : 'dark'
+                // themeMode: state.themeMode === 'dark' ? 'light' : 'dark' // можно так если не передавать ничего в Action Creator в диспатче
+                themeMode: action.payload
             }
         default:
             return state
@@ -40,6 +41,6 @@ export const changeThemeReducer = (
 // themeModeAC — это функция, которая возвращает объект действия с типом 'CHANGE-THEME'.
 // Этот объект можно отправить (dispatch) в редьюсер, чтобы изменить значение themeMode.
 // Используем `as const`, чтобы TypeScript точно знал, что type всегда равен 'CHANGE-THEME'.
-export const changeThemeAC = () => {
-    return {type: 'CHANGE-THEME'} as const
+export const changeThemeAC = (themeMode: ThemeMode) => {
+    return {type: 'CHANGE-THEME',payload: themeMode} as const
 }

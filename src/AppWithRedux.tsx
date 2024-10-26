@@ -82,7 +82,7 @@ function AppWithRedux() {
     })
 
     const changeModeHandler = () => {
-        dispatch(changeThemeAC())
+        dispatch(changeThemeAC(changeTheme === 'dark' ? 'light' : 'dark'))
     }
 
     return (
