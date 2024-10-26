@@ -1,11 +1,13 @@
 import {todolistReducer} from "./todolist-reducer";
 import {tasksReducer} from "./tasks-reducer";
 import {combineReducers, legacy_createStore as createStore} from 'redux';
+import {changeThemeReducer} from "./changeTheme-reducer";
 
 //*
 const rootReducer = combineReducers({
     tasks: tasksReducer,// функцию мы не вызываем  потому что это все сработает когда запуститься наше приложение
-    todolist: todolistReducer
+    todolist: todolistReducer,
+    changeTheme: changeThemeReducer
 })
 
 //store**

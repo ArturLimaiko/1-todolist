@@ -14,19 +14,19 @@ const initialState = {
 
 // Определяем тип для экшена ToggleThemeAction, используя ReturnType для вывода типа возвращаемого значения функции themeModeAC.
 // Это позволяет нам автоматически выводить тип экшена для TOGGLE-THEME.
-export type ToggleThemeAction = ReturnType<typeof themeModeAC>;
+export type ChangeThemeActionType = ReturnType<typeof changeThemeAC>;
 
 
 // Определяем ActionsType как объединение всех возможных типов экшенов.
 // Пока у нас один тип ToggleThemeAction, но в будущем сюда можно добавить другие типы экшенов.
-export type ActionsType = ToggleThemeAction;
+export type ActionsType = ChangeThemeActionType;
 
-export const themeReducer = (
+export const changeThemeReducer = (
     state: InitialState = initialState,
     action: ActionsType
 ): InitialState => {
     switch (action.type) {
-        case 'TOGGLE-THEME':
+        case 'CHANGE-THEME':
             return {
                 ...state,
                 themeMode: state.themeMode === 'dark' ? 'dark' : 'light'
@@ -36,41 +36,10 @@ export const themeReducer = (
     }
 }
 
-export const themeModeAC = () => {
-    return {type: 'TOGGLE-THEME' } as const
+// Action Creator (Создатель действия) для переключения темы
+// themeModeAC — это функция, которая возвращает объект действия с типом 'CHANGE-THEME'.
+// Этот объект можно отправить (dispatch) в редьюсер, чтобы изменить значение themeMode.
+// Используем `as const`, чтобы TypeScript точно знал, что type всегда равен 'CHANGE-THEME'.
+export const changeThemeAC = () => {
+    return {type: 'CHANGE-THEME' } as const
 }
-
-
-// export type ThemeModeType = 'dark' | 'light'
-//
-// type themeModeACType = {
-//     themeMode: ThemeModeType
-// };
-//
-// type themeActionType = themeModeAction
-//
-// type themeModeAction = {
-//     type: 'TOGGLE-THEME'
-// };
-//
-// const initialState: themeModeACType = {
-//     themeMode: 'dark',
-// }
-//
-// export const themeReducer = (state: themeModeACType = initialState, action: themeActionType): themeModeACType => {
-//     switch (action.type) {
-//         case 'TOGGLE-THEME': {
-//             return {
-//                 ...state,
-//                 themeMode: state.themeMode === 'dark' ? 'dark' : 'light'
-//             }
-//         }
-//         default:
-//             return state
-//     }
-// }
-//
-// //Экшен, который можно будет использовать для вызова переключения темы.
-//     const themeModeAC = ():themeModeAction => {
-//    return {type: 'TOGGLE-THEME'}
-// }
