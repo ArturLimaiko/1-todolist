@@ -17,8 +17,7 @@ export type ActionsType =
     | AddTodolistACType
     | removeTodolistACType
 
-//инициализационное состояние что бы  при первом запуске редакс его видел
-//значение которое вернется из нашего reducer'a.
+//инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
 const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {

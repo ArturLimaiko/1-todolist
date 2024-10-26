@@ -30,6 +30,7 @@ export type ActionsType =
     | changeTodolistTitleACType
     | changeTodolistFilterACType
 
+//инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
 const initialState: TodoListType[] = []
 
 export const todolistReducer = (state:TodoListType[] = initialState, action: ActionsType): TodoListType[] => {

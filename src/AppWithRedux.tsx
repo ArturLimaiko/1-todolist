@@ -13,7 +13,6 @@ import {AppRootStateType} from "./state/state";
 import {useDispatch, useSelector} from "react-redux";
 import {TodolistWithRedux} from "./TodolistWithRedux";
 
-
 export type TaskType = { id: string, title: string, isDone: boolean }
 
 export type TodoListType = { id: string, title: string, filter: FilterValuesType }
@@ -25,6 +24,8 @@ export type FilterValuesType = 'all' | 'active' | 'completed'
 export type ThemeModeType = 'dark' | 'light'
 
 function AppWithRedux() {
+    //в дженерике - 1 параметр тип стейта с которым работает , 2ой - тип то что мы хотим вернуть из нашего селектора - в нашем случае массив TodoListType
+    //внутри в колбеке лежит наш стейт
     let todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolist)
 
     //присваиваем переменной метод useDispatch()-хук, прокинем его в каждую функцию
