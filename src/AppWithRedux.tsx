@@ -27,7 +27,7 @@ export type ThemeModeType = 'dark' | 'light'
 function AppWithRedux() {
     let todolists = useSelector<AppRootStateType, TodoListType[]>(state => state.todolist)
 
-    //присваиваем переменной метод useDispatch() и прокинем его в каждую функцию
+    //присваиваем переменной метод useDispatch()-хук, прокинем его в каждую функцию
     //а он дальше сам разберется куда прокидывать
     const dispatch = useDispatch()
 
