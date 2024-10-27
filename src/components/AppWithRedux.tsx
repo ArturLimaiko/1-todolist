@@ -1,11 +1,11 @@
-import './App.css';
+import '../App.css';
 import React from "react";
 import {ThemeProvider} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import {AppRootStateType} from "./state/state";
+import {AppRootStateType} from "../state/state";
 import {useSelector} from "react-redux";
-import {ThemeMode} from "./state/changeTheme-reducer";
-import {getTheme} from "./common/theme/theme";
+import {ThemeMode} from "../state/changeTheme-reducer";
+import {getTheme} from "../common/theme/theme";
 import {Header} from "./Header";
 import {Main} from "./Main";
 
@@ -14,7 +14,7 @@ export type TaskType = { id: string, title: string, isDone: boolean }
 export type TodoListType = { id: string, title: string, filter: FilterValuesType }
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
-function AppWithRedux() {
+export function AppWithRedux() {
 
     let changeTheme = useSelector<AppRootStateType, ThemeMode>(
         state => state.changeTheme.themeMode)
@@ -29,5 +29,3 @@ function AppWithRedux() {
         </div>
     );
 }
-
-export default AppWithRedux;

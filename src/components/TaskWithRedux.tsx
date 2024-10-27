@@ -1,13 +1,13 @@
 import React, {memo} from 'react';
 import {useSelector} from "react-redux";
-import {getListItemSx} from "./Todolist.styles";
+import {getListItemSx} from "../Todolist.styles";
 import Checkbox from "@mui/material/Checkbox";
-import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListItem from "@mui/material/ListItem";
+import {AppRootStateType} from "../state/state";
 import {TaskType} from "./AppWithRedux";
-import {AppRootStateType} from "./state/state";
+import {EditableSpan} from "./EditableSpan";
 
 export type TaskWithReduxType = {
     taskId: string
