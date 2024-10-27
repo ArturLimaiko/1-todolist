@@ -19,43 +19,16 @@ type Props = {
 export const TodolistWithRedux = memo(({todolist}: Props) => {
 
     let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolist.id])
-    // const {id, filter, title} = todolist;
-
     const dispatch = useDispatch()
 
     //addTask
     const addTaskHandler = useCallback((title: string) => {
         dispatch(addTaskAC(todolist.id, title))
     }, [dispatch])
-//
+
     const updateTodolistTitleHandler = useCallback((updateTitle: string) => {
         dispatch(changeTodolistTitleAC(todolist.id, updateTitle))
     }, [])
-
-    const updateTaskTitleHandler = useCallback((taskId: string, newTitle: string) => {
-        dispatch(changeTaskTitleAC(todolist.id, taskId, newTitle))
-    }, [dispatch])
-
-    const removeTaskHandler = useCallback((taskId: string, todolistId: string) => {
-        dispatch(removeTaskAC(todolistId, taskId))
-    }, [dispatch])
-
-    const changeTaskStatusHandler = useCallback((todolistId: string, taskId: string, e: ChangeEvent<HTMLInputElement>) => {
-        const newStatusValue = e.currentTarget.checked
-        dispatch(changeTaskStatusAC(todolistId, taskId, newStatusValue))
-    }, [dispatch])
-
-    let filteredTasks = useMemo(() => {
-        console.log('UseMemo')
-        //фильтрация тасок
-        if (todolist.filter === 'active') {
-            tasks = tasks.filter(task => !task.isDone)
-        }
-        if (todolist.filter === 'completed') {
-            tasks = tasks.filter(task => task.isDone)
-        }
-        return tasks
-    }, [tasks, todolist.filter])
 
     return (
 
@@ -66,23 +39,7 @@ export const TodolistWithRedux = memo(({todolist}: Props) => {
                 </IconButton>
             </h3>
             <AddItemForm addItem={addTaskHandler}/>
-            {
-                filteredTasks.length === 0
-                    ? <p>Тасок нет</p>
-                    : <List>
-                        {filteredTasks.map((t) => {
-                            return (
-                                <TaskWithRedux key={t.id}
-                                               taskId={t.id}
-                                               todolistId={todolist.id}
-                                               updateTaskTitleHandler={updateTaskTitleHandler}
-                                               removeTaskHandler={removeTaskHandler}
-                                               changeTaskStatusHandler={changeTaskStatusHandler}
-                                />
-                            )
-                        })}
-                    </List>
-            }
+
             <FilterTasksButtons todolist={todolist}/>
         </div>
     )
