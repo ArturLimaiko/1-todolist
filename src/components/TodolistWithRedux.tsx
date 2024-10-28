@@ -1,9 +1,8 @@
 import React, {memo, useCallback} from "react";
 import {AddItemForm} from "./AddItemForm";
-import {TaskType, TodoListType} from "./AppWithRedux";
-import {useDispatch, useSelector} from "react-redux";
+import {TodoListType} from "./AppWithRedux";
+import {useDispatch} from "react-redux";
 import {addTaskAC} from "../state/tasks-reducer";
-import {AppRootStateType} from "../state/state";
 import {FilterTasksButtons} from "./FilterTasksButtons";
 import {TasksWithRedux} from "./TasksWithRedux";
 import {TodolistTitle} from "./TodolistTitle";
@@ -11,7 +10,7 @@ import {TodolistTitle} from "./TodolistTitle";
 type Props = { todolist: TodoListType }
 
 export const TodolistWithRedux = memo(({todolist}: Props) => {
-    let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolist.id])
+    // let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolist.id])
     const dispatch = useDispatch()
 
     //addTask
@@ -20,7 +19,6 @@ export const TodolistWithRedux = memo(({todolist}: Props) => {
     }, [dispatch])
 
     return (
-
         <div>
             <TodolistTitle todolist={todolist}/>
             <AddItemForm addItem={addTaskHandler}/>
