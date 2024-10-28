@@ -1,16 +1,15 @@
-import React, {ChangeEvent, memo, useCallback, useMemo} from "react";
+import React, {memo, useCallback} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {TaskType, TodoListType} from "./AppWithRedux";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
+import {addTaskAC} from "../state/tasks-reducer";
 import {changeTodolistTitleAC, removeTodolistAC} from "../state/todolist-reducer";
-import List from "@mui/material/List";
-import {TaskWithRedux} from "./TaskWithRedux";
 import {AppRootStateType} from "../state/state";
 import {FilterTasksButtons} from "./FilterTasksButtons";
+import {TasksWithRedux} from "./TasksWithRedux";
 
 type Props = {
     todolist: TodoListType
@@ -39,7 +38,7 @@ export const TodolistWithRedux = memo(({todolist}: Props) => {
                 </IconButton>
             </h3>
             <AddItemForm addItem={addTaskHandler}/>
-
+            <TasksWithRedux todolist={todolist}/>
             <FilterTasksButtons todolist={todolist}/>
         </div>
     )
