@@ -17,13 +17,13 @@ export const Main = () => {
 
 
     return (
-        <div>
-            <Grid container>
+        <>
+            <Grid container sx={{padding:'30px'}}>
                 <AddItemForm addItem={addTodoList}/>
             </Grid>
             <Grid container spacing={2}>
-            <Todolists/>
+                <Todolists/>
             </Grid>
-        </div>
+        </>
     );
 };

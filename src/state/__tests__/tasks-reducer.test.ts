@@ -5,8 +5,8 @@ import {
     changeTaskTitleAC,
     removeTaskAC,
     tasksReducer
-} from "./tasks-reducer";
-import {TasksStateType} from "../app/AppWithRedux";
+} from "../tasks-reducer";
+import {TasksStateType} from "../../app/AppWithRedux";
 
 let startState: TasksStateType
 
