@@ -1,11 +1,11 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeThemeAC, ThemeMode} from "../state/changeTheme-reducer";
-import {getTheme} from "../common/theme/theme";
-import ButtonAppBar from "../ButtonAppBar";
+import {changeThemeAC, ThemeMode} from "../../state/changeTheme-reducer";
+import {getTheme} from "../theme/theme";
+import ButtonAppBar from "./ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
-import {AppRootStateType} from "../state/state";
+import {AppRootStateType} from "../../state/state";
 
 
 export const Header = () => {

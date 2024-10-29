@@ -1,6 +1,6 @@
 import React, {useCallback} from "react";
 import Grid from "@mui/material/Grid2";
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "../common/components/AddItemForm";
 import {addTodolistAC} from "../state/todolist-reducer";
 import {useDispatch} from "react-redux";
 import {Todolists} from "../features/todolists/ui/Todolists/Todolists";

@@ -6,8 +6,9 @@ import {AppRootStateType} from "../state/state";
 import {useSelector} from "react-redux";
 import {ThemeMode} from "../state/changeTheme-reducer";
 import {getTheme} from "../common/theme/theme";
-import {Header} from "./Header";
+import {Header} from "../common/components/Header";
 import {Main} from "./Main";
+
 
 export type TasksStateType = { [todolistId: string]: TaskType[] }
 export type TaskType = { id: string, title: string, isDone: boolean }

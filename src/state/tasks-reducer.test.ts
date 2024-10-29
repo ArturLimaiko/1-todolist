@@ -6,7 +6,7 @@ import {
     removeTaskAC,
     tasksReducer
 } from "./tasks-reducer";
-import {TasksStateType} from "../components/AppWithRedux";
+import {TasksStateType} from "../app/AppWithRedux";
 
 let startState: TasksStateType
 
