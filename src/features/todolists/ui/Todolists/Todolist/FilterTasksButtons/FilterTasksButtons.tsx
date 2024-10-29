@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
-import {FilterButtonContainerSx} from "../Todolist.styles";
-import {ButtonWithMemo} from "./ButtonWithMemo";
+import {FilterButtonContainerSx} from "../../../../../../Todolist.styles";
+import {ButtonWithMemo} from "../../../../../../components/ButtonWithMemo";
 import Box from "@mui/material/Box";
-import {FilterValuesType, TodoListType} from "./AppWithRedux";
-import {changeTodolistFilterAC} from "../state/todolist-reducer";
+import {FilterValuesType, TodoListType} from "../../../../../../components/AppWithRedux";
+import {changeTodolistFilterAC} from "../../../../../../state/todolist-reducer";
 import {useDispatch} from "react-redux";
 
 type Props = { todolist: TodoListType }

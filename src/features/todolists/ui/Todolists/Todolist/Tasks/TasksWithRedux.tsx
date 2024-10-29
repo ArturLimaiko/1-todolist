@@ -1,9 +1,9 @@
 import React, {memo, useMemo} from 'react';
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "../state/state";
-import {TasksStateType, TodoListType} from "./AppWithRedux";
+import {AppRootStateType} from "../../../../../../state/state";
+import {TasksStateType, TodoListType} from "../../../../../../components/AppWithRedux";
 import List from "@mui/material/List";
-import {Task} from "./Task";
+import {Task} from "./Task/Task";
 
 type Props = { todolist: TodoListType }
 
@@ -19,7 +19,6 @@ export const TasksWithRedux = memo(({todolist}: Props) => {
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     const allTodolistTasks = tasks[todolist.id]
-
     let tasksForTodolist = allTodolistTasks
 
     let filteredTasks = useMemo(() => {

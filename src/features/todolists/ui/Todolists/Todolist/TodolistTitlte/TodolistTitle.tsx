@@ -1,10 +1,10 @@
 import React, {memo, useCallback} from "react";
 import {useDispatch} from "react-redux";
-import {changeTodolistTitleAC, removeTodolistAC} from "../state/todolist-reducer";
-import {EditableSpan} from "./EditableSpan";
+import {changeTodolistTitleAC, removeTodolistAC} from "../../../../../../state/todolist-reducer";
+import {EditableSpan} from "../../../../../../components/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {TodoListType} from "./AppWithRedux";
+import {TodoListType} from "../../../../../../components/AppWithRedux";
 
 type Props = { todolist: TodoListType }
 

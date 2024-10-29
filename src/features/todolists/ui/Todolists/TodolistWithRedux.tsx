@@ -1,11 +1,11 @@
 import React, {memo, useCallback} from "react";
-import {AddItemForm} from "./AddItemForm";
-import {TodoListType} from "./AppWithRedux";
+import {AddItemForm} from "../../../../components/AddItemForm";
+import {TodoListType} from "../../../../components/AppWithRedux";
 import {useDispatch} from "react-redux";
-import {addTaskAC} from "../state/tasks-reducer";
-import {FilterTasksButtons} from "./FilterTasksButtons";
-import {TasksWithRedux} from "./TasksWithRedux";
-import {TodolistTitle} from "./TodolistTitle";
+import {addTaskAC} from "../../../../state/tasks-reducer";
+import {FilterTasksButtons} from "./Todolist/FilterTasksButtons/FilterTasksButtons";
+import {TasksWithRedux} from "./Todolist/Tasks/TasksWithRedux";
+import {TodolistTitle} from "./Todolist/TodolistTitlte/TodolistTitle";
 
 type Props = { todolist: TodoListType }
 
