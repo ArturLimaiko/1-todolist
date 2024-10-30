@@ -53,4 +53,3 @@ export const AddItemForm = memo( ({addItem}: AddItemFormType) => {
     );
 });
 
-//storybook & snapshot
