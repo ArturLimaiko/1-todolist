@@ -1,12 +1,12 @@
 import React, {ChangeEvent, memo, useState} from 'react';
 
-export type EditableSpanType = {
+export type Props = {
     oldTitle: string
     onClick: (updateTitle: string) => void
 }
 
 export const EditableSpan =
-    memo(({oldTitle, onClick}: EditableSpanType) => {
+    memo(({oldTitle, onClick}: Props) => {
     const [edit, setEdit] = useState(false)
     const [updateTitle, setUpdateTitle] = useState(oldTitle)
 
