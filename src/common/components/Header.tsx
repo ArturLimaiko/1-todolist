@@ -6,9 +6,10 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 import {useAppDispatch} from "../hooks/useAppDispatch";
 import {useAppSelector} from "../hooks/useAppSelector";
+import {selectThemeMode} from "../../app/appSelectors";
 
 export const Header = () => {
-    let changeTheme = useAppSelector(state => state.changeTheme.themeMode)
+    let changeTheme = useAppSelector(selectThemeMode)
     const theme = getTheme(changeTheme);
 
     //присваиваем переменной метод useDispatch()-хук, прокинем его в каждую функцию

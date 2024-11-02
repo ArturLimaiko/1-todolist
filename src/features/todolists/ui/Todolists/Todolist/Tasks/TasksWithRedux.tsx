@@ -3,12 +3,13 @@ import {TodoListType} from "../../../../../../app/AppWithRedux";
 import List from "@mui/material/List";
 import {Task} from "./Task/Task";
 import {useAppSelector} from "../../../../../../common/hooks/useAppSelector";
+import {tasksSelectors} from "../../../../model/tasksSelectors";
 
 type Props = { todolist: TodoListType }
 
 export const TasksWithRedux = memo(({todolist}: Props) => {
 
-    let tasks = useAppSelector(state => state.tasks)
+    let tasks = useAppSelector(tasksSelectors)
 
     const allTodolistTasks = tasks[todolist.id]
     let tasksForTodolist = allTodolistTasks

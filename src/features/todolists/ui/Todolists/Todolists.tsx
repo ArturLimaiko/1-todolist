@@ -3,9 +3,10 @@ import Grid from "@mui/material/Grid2";
 import {Paper} from "@mui/material";
 import {TodolistWithRedux} from "./Todolist/TodolistWithRedux";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
+import {todolistsSelectors} from "../../model/todolistsSelectors";
 
 export const Todolists = () => {
-    let todolists = useAppSelector(state => state.todolist)
+    let todolists = useAppSelector(todolistsSelectors)
 
     return (
         //по скольку возвращаю массив элементов а это не допустимо то оборачиваю в React.Fragment - будет восприниматься JSX как один целый компонент

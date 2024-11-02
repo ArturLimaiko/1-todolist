@@ -5,6 +5,7 @@ import {getTheme} from "../common/theme/theme";
 import {Header} from "../common/components/Header";
 import {Main} from "./Main";
 import {useAppSelector} from "../common/hooks/useAppSelector";
+import {selectThemeMode} from "./appSelectors";
 
 
 export type TasksStateType = { [todolistId: string]: TaskType[] }
@@ -14,8 +15,7 @@ export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export function AppWithRedux() {
 
-    let changeTheme = useAppSelector(
-        state => state.changeTheme.themeMode)
+    let changeTheme = useAppSelector(selectThemeMode)
 
     return (
         <div className="App">
