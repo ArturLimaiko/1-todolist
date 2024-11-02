@@ -3,15 +3,15 @@ import {ButtonWithMemo} from "../../../../../../ButtonWithMemo";
 import Box from "@mui/material/Box";
 import {FilterValuesType, TodoListType} from "../../../../../../app/AppWithRedux";
 import {changeTodolistFilterAC} from "../../../../../../state/todolist-reducer";
-import {useDispatch} from "react-redux";
 import {FilterButtonContainerSx} from "./FilterTasksButton.styles";
+import {useAppDispatch} from "../../../../../../common/hooks/useAppDispatch";
 
 type Props = { todolist: TodoListType }
 
 export const FilterTasksButtons = ({todolist}: Props) => {
     const {id, filter} = todolist
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     //filter
     const changeFilterTasksHandler = useCallback((filter: FilterValuesType) => {
         dispatch(changeTodolistFilterAC(id, filter))

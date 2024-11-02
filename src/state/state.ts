@@ -10,6 +10,9 @@ const rootReducer = combineReducers({
     changeTheme: changeThemeReducer
 })
 
+//явно используем тип
+export type AppDispatch = typeof store.dispatch
+
 //store**
 export const store = createStore(rootReducer);
 

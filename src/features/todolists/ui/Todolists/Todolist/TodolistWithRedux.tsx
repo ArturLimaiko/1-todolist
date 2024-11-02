@@ -6,12 +6,13 @@ import {addTaskAC} from "../../../../../state/tasks-reducer";
 import {FilterTasksButtons} from "./FilterTasksButtons/FilterTasksButtons";
 import {TasksWithRedux} from "./Tasks/TasksWithRedux";
 import {TodolistTitle} from "./TodolistTitlte/TodolistTitle";
+import {useAppDispatch} from "../../../../../common/hooks/useAppDispatch";
 
 type Props = { todolist: TodoListType }
 
 export const TodolistWithRedux = memo(({todolist}: Props) => {
     // let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolist.id])
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     //addTask
     const addTaskHandler = useCallback((title: string) => {
