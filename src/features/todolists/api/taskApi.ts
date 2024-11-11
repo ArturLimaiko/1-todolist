@@ -2,6 +2,7 @@ import {GetTasksResponse, Task, UpdateTaskModel} from "./tasksApi.types";
 import {instance} from "../../../common/instance/instance";
 import {ChangeEvent} from "react";
 import {BaseResponse} from "../../../common/types/types";
+import {TaskStatus} from "../../../common/enums/enums";
 
 export const taskApi = {
     getTask:(todolistId:string) => {
@@ -20,7 +21,7 @@ export const taskApi = {
         const model: UpdateTaskModel = {
             title: task.title,
             description: task.description,
-            status: e.currentTarget.checked ? 2 : 0,
+            status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
             priority: task.priority,
             startDate: task.startDate,
             deadline: task.deadline,
