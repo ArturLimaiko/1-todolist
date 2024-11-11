@@ -1,4 +1,4 @@
-import {TaskStatus} from "../../../common/enums/enums";
+import {TaskStatus} from "common/enums/enums";
 
 export type Task = {
     description: string

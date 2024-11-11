@@ -1,9 +1,9 @@
 import React, {useCallback} from "react";
 import Grid from "@mui/material/Grid2";
-import {AddItemForm} from "../common/components/AddItemForm";
+import {AddItemForm} from "common/components/AddItemForm/AddItemForm";
 import {addTodolistAC} from "../state/todolist-reducer";
 import {Todolists} from "../features/todolists/ui/Todolists/Todolists";
-import {useAppDispatch} from "../common/hooks/useAppDispatch";
+import {useAppDispatch} from "common/hooks/useAppDispatch";
 
 export const Main = () => {
 

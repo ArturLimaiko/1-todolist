@@ -1,8 +1,8 @@
 import React, {memo, useMemo} from 'react';
-import {TodoListType} from "../../../../../../app/AppWithRedux";
+import {TodoListType} from "app/AppWithRedux";
 import List from "@mui/material/List";
-import {Task} from "./Task/Task";
-import {useAppSelector} from "../../../../../../common/hooks/useAppSelector";
+import {Task} from "./Task";
+import {useAppSelector} from "common/hooks/useAppSelector";
 import {tasksSelectors} from "../../../../model/tasksSelectors";
 
 type Props = { todolist: TodoListType }

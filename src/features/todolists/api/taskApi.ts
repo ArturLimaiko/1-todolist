@@ -1,8 +1,8 @@
 import {GetTasksResponse, Task, UpdateTaskModel} from "./tasksApi.types";
-import {instance} from "../../../common/instance/instance";
+import {instance} from "common/instance/instance";
 import {ChangeEvent} from "react";
-import {BaseResponse} from "../../../common/types/types";
-import {TaskStatus} from "../../../common/enums/enums";
+import {BaseResponse} from "common/types/types";
+import {TaskStatus} from "common/enums/enums";
 
 export const taskApi = {
     getTask:(todolistId:string) => {

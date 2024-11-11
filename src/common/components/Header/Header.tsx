@@ -1,12 +1,12 @@
 import React from 'react';
-import {changeThemeAC} from "../../state/changeTheme-reducer";
-import {getTheme} from "../theme/theme";
-import ButtonAppBar from "./ButtonAppBar";
+import {changeThemeAC} from "../../../state/changeTheme-reducer";
+import {getTheme} from "../../theme/theme";
+import ButtonAppBar from "../ButtonAppBar/ButtonAppBar";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
-import {useAppDispatch} from "../hooks/useAppDispatch";
-import {useAppSelector} from "../hooks/useAppSelector";
-import {selectThemeMode} from "../../app/appSelectors";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import {selectThemeMode} from "app/appSelectors";
 
 export const Header = () => {
     let changeTheme = useAppSelector(selectThemeMode)

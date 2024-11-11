@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from "@mui/material/Grid2";
 import {Paper} from "@mui/material";
 import {TodolistWithRedux} from "./Todolist/TodolistWithRedux";
-import {useAppSelector} from "../../../../common/hooks/useAppSelector";
+import {useAppSelector} from "common/hooks/useAppSelector";
 import {todolistsSelectors} from "../../model/todolistsSelectors";
 
 export const Todolists = () => {

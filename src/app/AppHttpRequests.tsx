@@ -1,11 +1,11 @@
 import Checkbox from '@mui/material/Checkbox'
 import React, {ChangeEvent, useEffect, useState} from 'react'
-import {AddItemForm} from "../common/components/AddItemForm";
-import {EditableSpan} from "../common/components/EditableSpan";
 import {Todolist} from "../features/todolists/api/todolistsApi.types";
 import {Task} from "../features/todolists/api/tasksApi.types";
 import {todolistsApi} from "../features/todolists/api/todolistsApi";
 import {taskApi} from "../features/todolists/api/taskApi";
+import {EditableSpan} from "common/components";
+import {AddItemForm} from "common/components";
 
 export const AppHttpRequests = () => {
     const [todolists, setTodolists] = useState<Todolist[]>([])
