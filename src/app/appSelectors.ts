@@ -1,11 +1,7 @@
-import {AppRootStateType} from "../state/state";
+import { AppRootStateType } from '../state/state'
 
 //вынесли selector в отдальную компоненту в функцию селектор
 export const selectThemeMode = (state: AppRootStateType) => state.changeTheme.themeMode
-
-
-
-
 
 //1. Вопрос: Нужно ли типизировать возвращаемое значение селектора ?
 
