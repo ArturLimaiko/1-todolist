@@ -4,11 +4,3 @@ export type Todolist = {
     addedDate: string,
     order: number
 }
-
-
-export type Response<D = {}> = {
-    resultCode: number
-    messages: string[]
-    fieldsErrors: string[]
-    data: D
-}

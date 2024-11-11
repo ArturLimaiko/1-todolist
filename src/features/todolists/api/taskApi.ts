@@ -1,7 +1,7 @@
-import {Response} from "./todolistsApi.types";
 import {GetTasksResponse, Task, UpdateTaskModel} from "./tasksApi.types";
 import {instance} from "../../../common/instance/instance";
 import {ChangeEvent} from "react";
+import {BaseResponse} from "../../../common/types/types";
 
 export const taskApi = {
     getTask:(todolistId:string) => {
@@ -9,11 +9,11 @@ export const taskApi = {
     },
     createTask: (args: { title: string, todolistId: string }) => {
         const {title, todolistId} = args;
-        return instance.post<Response<{ item: Task }>>(`todo-lists/${todolistId}/tasks`, {title})
+        return instance.post<BaseResponse<{ item: Task }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
     removeTask(args: { taskId: string, todolistId: string }) {
         const {taskId, todolistId} = args;
-        return instance.delete<Response>(`todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<BaseResponse>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     changeTaskStatus(args: { e: ChangeEvent<HTMLInputElement>, task: Task, todolistId: string }) {
         const {e, todolistId, task} = args;
@@ -25,10 +25,10 @@ export const taskApi = {
             startDate: task.startDate,
             deadline: task.deadline,
         }
-        return instance.put<Response<{ item: Task }>>(`todo-lists/${todolistId}/tasks/${task.id}`, model)
+        return instance.put<BaseResponse<{ item: Task }>>(`todo-lists/${todolistId}/tasks/${task.id}`, model)
     },
     changeTaskTitle(args: { title: string, task: Task }) {
         const {title, task} = args;
-        return instance.put<Response<{ item: Task }>>(`todo-lists/${task.todoListId}/tasks/${task.id}`, {title})
+        return instance.put<BaseResponse<{ item: Task }>>(`todo-lists/${task.todoListId}/tasks/${task.id}`, {title})
     }
 }
