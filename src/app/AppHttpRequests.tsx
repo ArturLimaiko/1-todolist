@@ -1,75 +1,118 @@
 import Checkbox from '@mui/material/Checkbox'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import {AddItemForm} from "../common/components/AddItemForm";
 import {EditableSpan} from "../common/components/EditableSpan";
-import axios from 'axios';
+import {Todolist} from "../features/todolists/api/todolistsApi.types";
+import {Task} from "../features/todolists/api/tasksApi.types";
+import {todolistsApi} from "../features/todolists/api/todolistsApi";
+import {taskApi} from "../features/todolists/api/taskApi";
 
 export const AppHttpRequests = () => {
-    const [todolists, setTodolists] = useState<any>([])
-    const [tasks, setTasks] = useState<any>({})
+    const [todolists, setTodolists] = useState<Todolist[]>([])
+    const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({})
 
     useEffect(() => {
-        axios.get('https://social-network.samuraijs.com/api/1.1/todo-lists')
-            .then(res => console.log(res))
+        todolistsApi.getTodolists()
+            .then(res => {
+                const todolist = res.data
+                setTodolists(todolist)
+                todolist.forEach(tl => {
+                    taskApi.getTask(tl.id)
+                        .then(res => {
+                            setTasks(prevTask => ({...prevTask, [tl.id]: res.data.items}))//***
+                        })
+                })
+            })
     }, [])
 
     const createTodolistHandler = (title: string) => {
-        // create todolist
+        todolistsApi.createTodolist(title)
+            .then(res => {
+                const newTodo = res.data.data.item
+                setTodolists([...todolists, newTodo])
+            })
     }
 
     const removeTodolistHandler = (id: string) => {
-        // remove todolist
+        todolistsApi.removeTodolist(id)
+            .then(() => {
+                setTodolists(todolists.filter(t => t.id !== id))
+            })
     }
 
     const updateTodolistHandler = (id: string, title: string) => {
-        // update todolist title
+        todolistsApi.updateTodolist({title, id})
+            .then(() => {
+                setTodolists(todolists.map(t => t.id === id ? {...t, title} : t))
+            })
     }
 
     const createTaskHandler = (title: string, todolistId: string) => {
-        // create task
+        taskApi.createTask({title, todolistId})
+            .then(res => {
+                const newTask = res.data.data.item
+                setTasks({...tasks, [todolistId]: tasks[todolistId] ? [newTask, ...tasks[todolistId]] : [newTask]})
+                // setTasks({ ...tasks, [todolistId]: [newTask, ...tasks[todolistId]] })
+            })
     }
 
     const removeTaskHandler = (taskId: string, todolistId: string) => {
-        // remove task
+        taskApi.removeTask({todolistId, taskId})
+            .then(() => {
+                setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== taskId)})
+            })
     }
 
-    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: any) => {
-        // update task status
+    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: Task, todolistId: string) => {
+        taskApi.changeTaskStatus({e, todolistId, task}).then(res => {
+            const updatedTask = res.data.data.item
+            setTasks(prevTasks => ({
+                ...prevTasks,
+                [todolistId]: prevTasks[todolistId].map(t => t.id === task.id ? updatedTask : t)
+            }))
+        })
     }
 
-    const changeTaskTitleHandler = (title: string, task: any) => {
-        // update task title
+    const changeTaskTitleHandler = (title: string, task: Task) => {
+        taskApi.changeTaskTitle({title, task})
+            .then(res => {
+                const updateTaskTitle = res.data.data.item
+                setTasks(prevTasks => ({
+                    ...prevTasks,
+                    [task.todoListId]: prevTasks[task.todoListId].map(t => t.id === task.id ? updateTaskTitle : t)
+                }))
+            })
     }
 
     return (
-        <div style={{ margin: '20px' }}>
-            <AddItemForm addItem={createTodolistHandler} />
+        <div style={{margin: '20px'}}>
+            <AddItemForm addItem={createTodolistHandler}/>
 
             {/* Todolists */}
-            {todolists.map((tl: any) => {
+            {todolists.map(tl => {
                 return (
                     <div key={tl.id} style={todolist}>
                         <div>
                             <EditableSpan
-                                oldTitle={tl.oldTitle}
+                                oldTitle={tl.title}
                                 onClick={(title: string) => updateTodolistHandler(tl.id, title)}
                             />
                             <button onClick={() => removeTodolistHandler(tl.id)}>x</button>
                         </div>
-                        <AddItemForm addItem={title => createTaskHandler(title, tl.id)} />
+                        <AddItemForm addItem={title => createTaskHandler(title, tl.id)}/>
 
                         {/* Tasks */}
                         {!!tasks[tl.id] &&
-                            tasks[tl.id].map((task: any) => {
+                            tasks[tl.id].map((task: Task) => {
                                 return (
                                     <div key={task.id}>
                                         <Checkbox
-                                            checked={task.isDone}
-                                            onChange={e => changeTaskStatusHandler(e, task)}
+                                            checked={task.status === 2}
+                                            onChange={e => changeTaskStatusHandler(e, task, tl.id)}
                                         />
                                         <EditableSpan
                                             onClick={title => changeTaskTitleHandler(title, task)}
-                                         oldTitle={task.oldTitle}/>
+                                            oldTitle={task.title}/>
                                         <button onClick={() => removeTaskHandler(task.id, tl.id)}>x</button>
                                     </div>
                                 )
@@ -91,3 +134,18 @@ const todolist: React.CSSProperties = {
     justifyContent: 'space-between',
     flexDirection: 'column',
 }
+
+
+//***
+//Вместо простого setTasks, нужно использовать функциональный вариант обновления состояния с коллбеком,
+//чтобы каждый запрос не зависел от предыдущих значений.
+//Используем setTasks(prevTasks => {...}), чтобы гарантировать,
+//что обновления состояния tasks всегда основываются на самом последнем значении prevTasks, независимо от порядка выполнения асинхронных запросов.
+//Теперь каждый setTasks вызов добавляет новые задачи в нужный тудулист без риска перезаписать уже существующие данные.
+
+
+//****
+//копируем объект тасок , далее обращаемся к конкретному тудулисту через [todolistId]:
+//далее пишем новое значение которое у него будет - массив с новой таской которая пришла с сервера [newTask,
+//и всеми тасками которые были ранее ...tasks[todolistId]
+//Мы можем добавить проверку, чтобы, если tasks[todolistId] равен undefined, он инициализировался как пустой массив. Вот как это можно сделать:
