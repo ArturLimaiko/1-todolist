@@ -5,7 +5,7 @@ import { addTaskAC } from '../../../../../state/tasks-reducer'
 import { FilterTasksButtons } from './FilterTasksButtons/FilterTasksButtons'
 import { TasksWithRedux } from './Tasks/TasksWithRedux'
 import { TodolistTitle } from './TodolistTitlte/TodolistTitle'
-import { useAppDispatch } from 'common/hooks/useAppDispatch'
+import { useAppDispatch } from 'common/hooks'
 
 type Props = { todolist: TodoListType }
 

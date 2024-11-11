@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import { ButtonWithMemo } from '../../../../../../ButtonWithMemo'
 import Box from '@mui/material/Box'
-import { FilterValuesType, TodoListType } from '../../../../../../app/AppWithRedux'
+import { FilterValuesType, TodoListType } from 'app/AppWithRedux'
 import { changeTodolistFilterAC } from '../../../../../../state/todolist-reducer'
 import { FilterButtonContainerSx } from './FilterTasksButton.styles'
-import { useAppDispatch } from '../../../../../../common/hooks/useAppDispatch'
+import { useAppDispatch } from 'common/hooks'
+import { ButtonWithMemo } from '../../../button'
 
 type Props = { todolist: TodoListType }
 
