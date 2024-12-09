@@ -19,6 +19,17 @@ export type GetTasksResponse = {
   totalCount: number
 }
 
+// UpdateTaskDomainModel это такой же тип как и UpdateTaskModel,
+// только все свойства в нем являются необязательными
+export type UpdateTaskDomainModel = {
+  title?: string
+  description?: string
+  status?: TaskStatus
+  priority?: TaskPriority
+  startDate?: string
+  deadline?: string
+}
+
 export type UpdateTaskModel = {
   title: string
   description: string

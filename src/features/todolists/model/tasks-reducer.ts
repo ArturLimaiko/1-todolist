@@ -1,8 +1,8 @@
 import { v1 } from 'uuid'
 import { removeTodolistActionType } from './todolist-reducer'
 import { taskApi } from '../api/taskApi'
-import { AppDispatch } from 'app/store'
-import { DomainTask } from '../api/tasksApi.types'
+import { AppDispatch, RootState } from 'app/store'
+import { DomainTask, UpdateTaskDomainModel } from '../api/tasksApi.types'
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -31,21 +31,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         [newTask.todoListId]: [newTask, ...state[newTask.todoListId]],
       }
     }
-    case 'CHANGE-TASK-STATUS': {
+    case 'UPDATE-TASK': {
+      const task = action.payload.task
       return {
         ...state,
-        [action.todolistId]: state[action.todolistId].map((t) =>
-          t.id === action.taskId ? { ...t, isDone: action.isDone } : t,
-        ),
+        [task.todoListId]: state[task.todoListId].map((t) => (t.id === task.id ? { ...t, ...task } : t)), // Заменяем найденную задачу новой версией ( текущие данные задачи + обновления)
       }
     }
-    case 'CHANGE-TASK-TITLE':
-      return {
-        ...state,
-        [action.todolistId]: state[action.todolistId].map((t) =>
-          t.id === action.taskId ? { ...t, title: action.newTitle } : t,
-        ),
-      }
+
     case 'ADD-TODOLIST':
       return {
         ...state,
@@ -80,12 +73,11 @@ export const addTaskAC = (payload: { task: DomainTask }) => {
   return { type: 'ADD-TASK', payload } as const
 }
 
-export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean) => {
-  return { type: 'CHANGE-TASK-STATUS', todolistId, taskId, isDone } as const
-}
-
-export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: string) => {
-  return { type: 'CHANGE-TASK-TITLE', todolistId, taskId, newTitle } as const
+export const updateTaskAC = (payload: { task: DomainTask }) => {
+  return {
+    type: 'UPDATE-TASK',
+    payload,
+  } as const
 }
 
 export const AddTodolistAC = (title: string) => {
@@ -94,8 +86,7 @@ export const AddTodolistAC = (title: string) => {
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
-export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
-export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
+export type updateTaskActionType = ReturnType<typeof updateTaskAC>
 export type AddTodolistActionType = ReturnType<typeof AddTodolistAC>
 export type SetTasksActionType = ReturnType<typeof setTasksAC>
 
@@ -103,8 +94,7 @@ export type SetTasksActionType = ReturnType<typeof setTasksAC>
 export type ActionsType =
   | RemoveTaskActionType
   | AddTaskActionType
-  | ChangeTaskStatusActionType
-  | ChangeTaskTitleActionType
+  | updateTaskActionType
   | AddTodolistActionType
   | removeTodolistActionType
   | SetTasksActionType
@@ -129,3 +119,34 @@ export const addTaskTC = (args: { todolistId: string; title: string }) => (dispa
     dispatch(addTaskAC({ task: newTask }))
   })
 }
+
+export const updateTaskTC =
+  (args: {
+    taskId: string
+    todolistId: string
+    domainModel: UpdateTaskDomainModel //Объект с данными, которые нужно изменить (например, status или title)
+  }) =>
+  (dispatch: AppDispatch, getState: () => RootState) => {
+    const state = getState() // используем getState(), чтобы получить все данные из Redux Store.
+    const task = state.tasks[args.todolistId]?.find((t) => t.id === args.taskId)
+    //В конкретном тудулисте (args.todolistId) ищем задачу по ID (args.taskId).
+    //?Опциональная цепочка - Если state.tasks[args.todolistId]? вернул undefined (то есть массив задач для указанного тудулиста отсутствует),
+    //то вызов метода .find(...) не произойдет, и весь результат выражения станет undefined.
+    //Это защищает от ошибки Cannot read properties of undefined.
+
+    if (!task) {
+      console.error(`Task with ID ${args.taskId} not found in todolist ${args.todolistId}`)
+      return // Если задача не найдена, выходим из функции
+    }
+
+    // Создание полной модели для обновления, объединяю текущие данные задачи с обновлениями
+    const updatedModel: UpdateTaskDomainModel = {
+      ...task,
+      ...args.domainModel, //содержит обновления (например, новый статус или название).
+    }
+
+    taskApi.updateTask({ taskId: args.taskId, todolistId: args.todolistId, model: updatedModel }).then((res) => {
+      const updatedTask = res.data.data.item
+      dispatch(updateTaskAC({ task: updatedTask })) //С помощью dispatch вызываем changeTaskAC, чтобы обновить задачу в Redux Store.
+    })
+  }

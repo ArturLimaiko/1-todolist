@@ -1,8 +1,6 @@
-import { DomainTask, GetTasksResponse, UpdateTaskModel } from './tasksApi.types'
 import { instance } from 'common/instance/instance'
-import { ChangeEvent } from 'react'
 import { BaseResponse } from 'common/types/types'
-import { TaskStatus } from 'common/enums/enums'
+import { DomainTask, GetTasksResponse, UpdateTaskDomainModel } from './tasksApi.types'
 
 export const taskApi = {
   getTask: (todolistId: string) => {
@@ -16,20 +14,8 @@ export const taskApi = {
     const { taskId, todolistId } = args
     return instance.delete<BaseResponse>(`todo-lists/${todolistId}/tasks/${taskId}`)
   },
-  changeTaskStatus(args: { e: ChangeEvent<HTMLInputElement>; task: DomainTask; todolistId: string }) {
-    const { e, todolistId, task } = args
-    const model: UpdateTaskModel = {
-      title: task.title,
-      description: task.description,
-      status: e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New,
-      priority: task.priority,
-      startDate: task.startDate,
-      deadline: task.deadline,
-    }
-    return instance.put<BaseResponse<{ item: DomainTask }>>(`todo-lists/${todolistId}/tasks/${task.id}`, model)
-  },
-  changeTaskTitle(args: { title: string; task: DomainTask }) {
-    const { title, task } = args
-    return instance.put<BaseResponse<{ item: DomainTask }>>(`todo-lists/${task.todoListId}/tasks/${task.id}`, { title })
+  updateTask(payload: { todolistId: string; taskId: string; model: UpdateTaskDomainModel }) {
+    const { taskId, todolistId, model } = payload
+    return instance.put<BaseResponse<{ item: DomainTask }>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
   },
 }

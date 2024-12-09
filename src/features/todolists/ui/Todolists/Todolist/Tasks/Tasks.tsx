@@ -1,17 +1,16 @@
-import React, { memo, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import List from '@mui/material/List'
 import { useAppSelector } from 'common/hooks/useAppSelector'
 import { tasksSelectors } from '../../../../model'
 import { Task } from './Task'
 import { TaskStatus } from 'common/enums'
-
 import { useAppDispatch } from 'common/hooks'
 import { fetchTasksTC } from '../../../../model/tasks-reducer'
 import { DomainTodolist } from '../../../../model/todolist-reducer'
 
 type Props = { todolist: DomainTodolist }
 
-export const Tasks = memo(({ todolist }: Props) => {
+export const Tasks = ({ todolist }: Props) => {
   let tasks = useAppSelector(tasksSelectors)
 
   const dispatch = useAppDispatch()
@@ -44,4 +43,4 @@ export const Tasks = memo(({ todolist }: Props) => {
       )}
     </>
   )
-})
+}
