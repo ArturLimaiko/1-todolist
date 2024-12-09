@@ -2,7 +2,6 @@ import { v1 } from 'uuid'
 import { removeTodolistActionType } from './todolist-reducer'
 import { taskApi } from '../api/taskApi'
 import { AppDispatch } from 'app/store'
-import { TaskPriority, TaskStatus } from 'common/enums'
 import { DomainTask } from '../api/tasksApi.types'
 
 export type TasksStateType = {
@@ -26,22 +25,10 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         [action.payload.todolistId]: state[action.payload.todolistId].filter((f) => f.id !== action.payload.taskId),
       }
     case 'ADD-TASK': {
-      const newTask: DomainTask = {
-        title: action.title,
-        todoListId: action.todolistId,
-        startDate: '',
-        priority: TaskPriority.Low,
-        description: '',
-        deadline: '',
-        status: TaskStatus.New,
-        addedDate: '',
-        order: 0,
-        id: v1(),
-      }
-
+      const newTask = action.payload.task
       return {
         ...state,
-        [action.todolistId]: [...state[action.todolistId], newTask],
+        [newTask.todoListId]: [newTask, ...state[newTask.todoListId]],
       }
     }
     case 'CHANGE-TASK-STATUS': {
@@ -89,8 +76,8 @@ export const removeTaskAC = (payload: { todolistId: string; taskId: string }) =>
   return { type: 'REMOVE-TASK', payload } as const
 }
 
-export const addTaskAC = (todolistId: string, title: string) => {
-  return { type: 'ADD-TASK', todolistId, title } as const
+export const addTaskAC = (payload: { task: DomainTask }) => {
+  return { type: 'ADD-TASK', payload } as const
 }
 
 export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean) => {
@@ -133,5 +120,12 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
 export const removeTaskTC = (args: { todolistId: string; taskId: string }) => (dispatch: AppDispatch) => {
   taskApi.removeTask(args).then(() => {
     dispatch(removeTaskAC(args))
+  })
+}
+
+export const addTaskTC = (args: { todolistId: string; title: string }) => (dispatch: AppDispatch) => {
+  taskApi.createTask(args).then((res) => {
+    const newTask = res.data.data.item
+    dispatch(addTaskAC({ task: newTask }))
   })
 }

@@ -1,24 +1,20 @@
-import React, { memo, useCallback } from 'react'
+import React from 'react'
 import { AddItemForm } from 'common/components'
-import { DomainTodolist } from 'app/AppWithRedux'
-import { addTaskAC } from '../../../model/tasks-reducer'
+import { addTaskTC } from '../../../model/tasks-reducer'
 import { FilterTasksButtons } from './FilterTasksButtons/FilterTasksButtons'
 import { TodolistTitle } from './TodolistTitlte/TodolistTitle'
 import { useAppDispatch } from 'common/hooks'
 import { Tasks } from './Tasks/Tasks'
+import { DomainTodolist } from '../../../model/todolist-reducer'
 
 type Props = { todolist: DomainTodolist }
 
-export const TodolistWithRedux = memo(({ todolist }: Props) => {
+export const TodolistWithRedux = ({ todolist }: Props) => {
   const dispatch = useAppDispatch()
 
-  //addTask
-  const addTaskHandler = useCallback(
-    (title: string) => {
-      dispatch(addTaskAC(todolist.id, title))
-    },
-    [dispatch],
-  )
+  const addTaskHandler = (title: string) => {
+    dispatch(addTaskTC({ title, todolistId: todolist.id }))
+  }
 
   return (
     <div>
@@ -28,4 +24,4 @@ export const TodolistWithRedux = memo(({ todolist }: Props) => {
       <FilterTasksButtons todolist={todolist} />
     </div>
   )
-})
+}
