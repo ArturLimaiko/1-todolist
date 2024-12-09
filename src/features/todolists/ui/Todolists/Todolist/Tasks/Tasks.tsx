@@ -7,14 +7,13 @@ import { tasksSelectors } from '../../../../model'
 
 type Props = { todolist: DomainTodolist }
 
-export const TasksWithRedux = memo(({ todolist }: Props) => {
+export const Tasks = memo(({ todolist }: Props) => {
   let tasks = useAppSelector(tasksSelectors)
 
   const allTodolistTasks = tasks[todolist.id]
   let tasksForTodolist = allTodolistTasks
 
   let filteredTasks = useMemo(() => {
-    console.log('UseMemo')
     //фильтрация тасок
     if (todolist.filter === 'active') {
       tasksForTodolist = allTodolistTasks.filter((task) => !task.isDone)
@@ -27,11 +26,11 @@ export const TasksWithRedux = memo(({ todolist }: Props) => {
 
   return (
     <>
-      {tasksForTodolist.length === 0 ? (
+      {tasksForTodolist?.length === 0 ? (
         <p>Тасок нет</p>
       ) : (
         <List>
-          {tasksForTodolist.map((task) => {
+          {tasksForTodolist?.map((task) => {
             return <Task key={task.id} todolist={todolist} task={task} />
           })}
         </List>

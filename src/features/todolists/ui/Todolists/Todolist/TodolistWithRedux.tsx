@@ -3,9 +3,9 @@ import { AddItemForm } from 'common/components'
 import { DomainTodolist } from 'app/AppWithRedux'
 import { addTaskAC } from '../../../../../state/tasks-reducer'
 import { FilterTasksButtons } from './FilterTasksButtons/FilterTasksButtons'
-import { TasksWithRedux } from './Tasks/TasksWithRedux'
 import { TodolistTitle } from './TodolistTitlte/TodolistTitle'
 import { useAppDispatch } from 'common/hooks'
+import { Tasks } from './Tasks/Tasks'
 
 type Props = { todolist: DomainTodolist }
 
@@ -24,7 +24,7 @@ export const TodolistWithRedux = memo(({ todolist }: Props) => {
     <div>
       <TodolistTitle todolist={todolist} />
       <AddItemForm addItem={addTaskHandler} />
-      <TasksWithRedux todolist={todolist} />
+      <Tasks todolist={todolist} />
       <FilterTasksButtons todolist={todolist} />
     </div>
   )
