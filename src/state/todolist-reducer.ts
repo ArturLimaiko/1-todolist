@@ -1,56 +1,15 @@
 import { v1 } from 'uuid'
-import { FilterValuesType, TodoListType } from 'app/AppWithRedux'
+import { Todolist } from '../features/todolists/api/todolistsApi.types'
 
-export type removeTodolistACType = {
-  type: 'REMOVE-TODOLIST'
-  todolistId: string
-}
+export type FilterValuesType = 'all' | 'active' | 'completed'
 
-export type addTodolistACType = {
-  type: 'ADD-TODOLIST'
-  title: string
-  todolistId: string
-}
-
-export type changeTodolistTitleACType = {
-  type: 'CHANGE-TODOLIST-TITLE'
-  todolistId: string
-  updatedTitle: string
-}
-
-export type changeTodolistFilterACType = {
-  type: 'CHANGE-TODOLIST-FILTER'
+export type DomainTodolist = Todolist & {
   filter: FilterValuesType
-  todolistId: string
 }
 
-export type ActionsType =
-  | removeTodolistACType
-  | addTodolistACType
-  | changeTodolistTitleACType
-  | changeTodolistFilterACType
-
-//инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
-const initialState: TodoListType[] = []
-
-export const todolistReducer = (state: TodoListType[] = initialState, action: ActionsType): TodoListType[] => {
-  switch (action.type) {
-    case 'REMOVE-TODOLIST':
-      //до этого мы еще удаляли и таски так сказать подчищали а сейчас нужно ли это?
-      // delete tasks[todolistId]
-      return state.filter((t) => t.id !== action.todolistId)
-    case 'ADD-TODOLIST':
-      const newTodoList: TodoListType = { id: action.todolistId, title: action.title, filter: 'all' }
-      return [...state, newTodoList]
-    case 'CHANGE-TODOLIST-TITLE':
-      return state.map((t) => (t.id === action.todolistId ? { ...t, title: action.updatedTitle } : t))
-    case 'CHANGE-TODOLIST-FILTER':
-      const todolistId = action.todolistId
-      return state.map((f) => (f.id === todolistId ? { ...f, filter: action.filter } : f))
-
-    default:
-      return state
-  }
+// Action creators
+export const setTodolistsAC = (todolists: Todolist[]) => {
+  return { type: 'SET-TODOLISTS', todolists } as const
 }
 
 export const removeTodolistAC = (todolistId: string) => {
@@ -67,4 +26,48 @@ export const changeTodolistTitleAC = (todolistId: string, updatedTitle: string) 
 
 export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesType) => {
   return { type: 'CHANGE-TODOLIST-FILTER', todolistId, filter } as const
+}
+
+export type setTodolistsActionType = ReturnType<typeof setTodolistsAC>
+export type removeTodolistActionType = ReturnType<typeof removeTodolistAC>
+export type addTodolistActionType = ReturnType<typeof addTodolistAC>
+export type changeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
+export type changeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
+
+// Actions types
+export type ActionsType =
+  | setTodolistsActionType
+  | removeTodolistActionType
+  | addTodolistActionType
+  | changeTodolistTitleActionType
+  | changeTodolistFilterActionType
+
+//инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
+const initialState: DomainTodolist[] = []
+
+export const todolistReducer = (state: DomainTodolist[] = initialState, action: ActionsType): DomainTodolist[] => {
+  switch (action.type) {
+    case 'SET-TODOLISTS': {
+      return action.todolists.map((tl) => ({ ...tl, filter: 'all' }))
+    }
+    case 'REMOVE-TODOLIST':
+      return state.filter((t) => t.id !== action.todolistId)
+    case 'ADD-TODOLIST':
+      const newTodoList: DomainTodolist = {
+        id: action.todolistId,
+        title: action.title,
+        filter: 'all',
+        addedDate: '',
+        order: 0,
+      }
+      return [...state, newTodoList]
+    case 'CHANGE-TODOLIST-TITLE':
+      return state.map((t) => (t.id === action.todolistId ? { ...t, title: action.updatedTitle } : t))
+    case 'CHANGE-TODOLIST-FILTER':
+      const todolistId = action.todolistId
+      return state.map((f) => (f.id === todolistId ? { ...f, filter: action.filter } : f))
+
+    default:
+      return state
+  }
 }

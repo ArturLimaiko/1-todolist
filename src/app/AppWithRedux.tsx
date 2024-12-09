@@ -9,7 +9,7 @@ import { Header } from 'common/components'
 
 export type TasksStateType = { [todolistId: string]: TaskType[] }
 export type TaskType = { id: string; title: string; isDone: boolean }
-export type TodoListType = { id: string; title: string; filter: FilterValuesType }
+export type DomainTodolist = { id: string; title: string; filter: FilterValuesType }
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export function AppWithRedux() {

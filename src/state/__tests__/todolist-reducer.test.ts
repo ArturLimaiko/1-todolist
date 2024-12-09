@@ -1,5 +1,5 @@
 import { v1 } from 'uuid'
-import { TodoListType } from '../../app/AppWithRedux'
+import { DomainTodolist } from '../../app/AppWithRedux'
 import {
   addTodolistAC,
   changeTodolistFilterAC,
@@ -8,7 +8,7 @@ import {
   todolistReducer,
 } from '../todolist-reducer'
 
-let startState: TodoListType[]
+let startState: DomainTodolist[]
 let todolistId_1: string
 let todolistId_2: string
 

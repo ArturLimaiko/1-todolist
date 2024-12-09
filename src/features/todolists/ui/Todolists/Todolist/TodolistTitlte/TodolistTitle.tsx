@@ -4,9 +4,9 @@ import { changeTodolistTitleAC, removeTodolistAC } from '../../../../../../state
 import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { TodoListType } from 'app/AppWithRedux'
+import { DomainTodolist } from 'app/AppWithRedux'
 
-type Props = { todolist: TodoListType }
+type Props = { todolist: DomainTodolist }
 
 export const TodolistTitle = memo(({ todolist }: Props) => {
   const dispatch = useDispatch()

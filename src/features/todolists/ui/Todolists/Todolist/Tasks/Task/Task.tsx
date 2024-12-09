@@ -4,12 +4,12 @@ import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ListItem from '@mui/material/ListItem'
-import { TaskType, TodoListType } from 'app/AppWithRedux'
+import { TaskType, DomainTodolist } from 'app/AppWithRedux'
 import { useDispatch } from 'react-redux'
 import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../../../../../../../state/tasks-reducer'
 import { getListItemSx } from './Task.style'
 
-type Props = { task: TaskType; todolist: TodoListType }
+type Props = { task: TaskType; todolist: DomainTodolist }
 
 export const Task = memo(({ task, todolist }: Props) => {
   const dispatch = useDispatch()

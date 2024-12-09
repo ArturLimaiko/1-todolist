@@ -1,11 +1,11 @@
 import React, { memo, useMemo } from 'react'
-import { TodoListType } from 'app/AppWithRedux'
+import { DomainTodolist } from 'app/AppWithRedux'
 import List from '@mui/material/List'
 import { Task } from './Task'
 import { useAppSelector } from 'common/hooks/useAppSelector'
-import { tasksSelectors } from '../../../../model/tasksSelectors'
+import { tasksSelectors } from '../../../../model'
 
-type Props = { todolist: TodoListType }
+type Props = { todolist: DomainTodolist }
 
 export const TasksWithRedux = memo(({ todolist }: Props) => {
   let tasks = useAppSelector(tasksSelectors)
