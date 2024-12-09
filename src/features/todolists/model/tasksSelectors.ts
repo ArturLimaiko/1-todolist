@@ -1,6 +1,6 @@
-import { AppRootStateType } from '../../../state/state'
+import { RootState } from '../../../state/state'
 
-export const tasksSelectors = (state: AppRootStateType) => state.tasks
+export const tasksSelectors = (state: RootState) => state.tasks
 
 //на всякиий протипизированное
-// export const tasksSelectors = (state: AppRootStateType):TasksStateType => state.tasks
+// export const tasksSelectors = (state: RootState):TasksStateType => state.tasks

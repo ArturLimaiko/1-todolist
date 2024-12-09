@@ -1,5 +1,5 @@
-import { AppRootStateType } from '../../../state/state'
+import { RootState } from '../../../state/state'
 
-export const todolistsSelectors = (state: AppRootStateType) => state.todolist
+export const todolistsSelectors = (state: RootState) => state.todolist
 
-// export const todolistsSelectors = (state:AppRootStateType):DomainTodolist[] => state.todolist
+// export const todolistsSelectors = (state:RootState):DomainTodolist[] => state.todolist

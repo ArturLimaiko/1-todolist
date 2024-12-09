@@ -1,7 +1,8 @@
 import { todolistReducer } from './todolist-reducer'
 import { tasksReducer } from './tasks-reducer'
-import { combineReducers, legacy_createStore as createStore } from 'redux'
+import { applyMiddleware, combineReducers, legacy_createStore as createStore, UnknownAction } from 'redux'
 import { changeThemeReducer } from './changeTheme-reducer'
+import { thunk, ThunkDispatch } from 'redux-thunk'
 
 //*
 const rootReducer = combineReducers({
@@ -11,13 +12,16 @@ const rootReducer = combineReducers({
 })
 
 //явно используем тип
-export type AppDispatch = typeof store.dispatch
+// export type AppDispatch = typeof store.dispatch
 
 //store**
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer, {}, applyMiddleware(thunk))
 
 //типы ***
-export type AppRootStateType = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof store.getState>
+
+// Создаем тип диспатча который принимает как AC так и TC
+export type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>
 
 // а это что бы можно было обращаться к стору из окна браузера
 //@ts-ignore
