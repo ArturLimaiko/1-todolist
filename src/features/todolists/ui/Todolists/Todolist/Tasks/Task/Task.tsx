@@ -1,39 +1,33 @@
-import React, { ChangeEvent, memo, useCallback } from 'react'
+import React, { ChangeEvent } from 'react'
 import Checkbox from '@mui/material/Checkbox'
 import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ListItem from '@mui/material/ListItem'
-import { useDispatch } from 'react-redux'
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../../../../../model/tasks-reducer'
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskTC } from '../../../../../model/tasks-reducer'
 import { getListItemSx } from './Task.style'
 import { DomainTodolist } from '../../../../../model/todolist-reducer'
 import { DomainTask } from '../../../../../api/tasksApi.types'
 import { TaskStatus } from 'common/enums'
+import { useAppDispatch } from 'common/hooks'
 
 type Props = { task: DomainTask; todolist: DomainTodolist }
 
-export const Task = memo(({ task, todolist }: Props) => {
-  const dispatch = useDispatch()
+export const Task = ({ task, todolist }: Props) => {
+  const dispatch = useAppDispatch()
 
-  const updateTaskTitleHandler = useCallback(
-    (newTitle: string) => {
-      dispatch(changeTaskTitleAC(todolist.id, task.id, newTitle))
-    },
-    [dispatch, todolist.id, task.id],
-  )
+  const updateTaskTitleHandler = (newTitle: string) => {
+    dispatch(changeTaskTitleAC(todolist.id, task.id, newTitle))
+  }
 
-  const removeTaskHandler = useCallback(() => {
-    dispatch(removeTaskAC(todolist.id, task.id))
-  }, [dispatch, todolist.id, task.id])
+  const removeTaskHandler = () => {
+    dispatch(removeTaskTC({ taskId: task.id, todolistId: todolist.id }))
+  }
 
-  const changeTaskStatusHandler = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const newStatusValue = e.currentTarget.checked
-      dispatch(changeTaskStatusAC(todolist.id, task.id, newStatusValue))
-    },
-    [dispatch, todolist.id, task.id],
-  )
+  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const newStatusValue = e.currentTarget.checked
+    dispatch(changeTaskStatusAC(todolist.id, task.id, newStatusValue))
+  }
 
   return (
     <ListItem key={task.id} sx={getListItemSx(task.status === TaskStatus.Completed)}>
@@ -51,4 +45,4 @@ export const Task = memo(({ task, todolist }: Props) => {
       </IconButton>
     </ListItem>
   )
-})
+}

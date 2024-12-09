@@ -1,4 +1,4 @@
-import { RootState } from 'app/state'
+import { RootState } from 'app/store'
 
 export const tasksSelectors = (state: RootState) => state.tasks
 

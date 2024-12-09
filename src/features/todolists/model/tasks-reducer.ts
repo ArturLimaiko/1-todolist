@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import { removeTodolistActionType } from './todolist-reducer'
 import { taskApi } from '../api/taskApi'
-import { AppDispatch } from 'app/state'
+import { AppDispatch } from 'app/store'
 import { TaskPriority, TaskStatus } from 'common/enums'
 import { DomainTask } from '../api/tasksApi.types'
 
@@ -23,7 +23,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
       //если таска не равна => добавь ( иначе удалит)
       return {
         ...state,
-        [action.todolistId]: state[action.todolistId].filter((f) => f.id !== action.taskId),
+        [action.payload.todolistId]: state[action.payload.todolistId].filter((f) => f.id !== action.payload.taskId),
       }
     case 'ADD-TASK': {
       const newTask: DomainTask = {
@@ -85,8 +85,8 @@ export const setTasksAC = (payload: { todolistId: string; tasks: DomainTask[] })
   } as const
 }
 
-export const removeTaskAC = (todolistId: string, taskId: string) => {
-  return { type: 'REMOVE-TASK', todolistId, taskId } as const
+export const removeTaskAC = (payload: { todolistId: string; taskId: string }) => {
+  return { type: 'REMOVE-TASK', payload } as const
 }
 
 export const addTaskAC = (todolistId: string, title: string) => {
@@ -127,5 +127,11 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
   taskApi.getTask(todolistId).then((res) => {
     const tasks = res.data.items
     dispatch(setTasksAC({ todolistId, tasks }))
+  })
+}
+
+export const removeTaskTC = (args: { todolistId: string; taskId: string }) => (dispatch: AppDispatch) => {
+  taskApi.removeTask(args).then(() => {
+    dispatch(removeTaskAC(args))
   })
 }
