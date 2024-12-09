@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import Grid from '@mui/material/Grid2'
 import { useAppDispatch } from 'common/hooks'
-import { addTodolistAC } from '../state/todolist-reducer'
+import { addTodolistAC } from '../features/todolists/model/todolist-reducer'
 import { AddItemForm } from 'common/components'
 import { Todolists } from '../features/todolists/ui/Todolists/Todolists'
 

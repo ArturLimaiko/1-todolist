@@ -1,7 +1,7 @@
-import { todolistReducer } from './todolist-reducer'
-import { tasksReducer } from './tasks-reducer'
+import { todolistReducer } from '../features/todolists/model/todolist-reducer'
+import { tasksReducer } from '../features/todolists/model/tasks-reducer'
 import { applyMiddleware, combineReducers, legacy_createStore as createStore, UnknownAction } from 'redux'
-import { changeThemeReducer } from './changeTheme-reducer'
+import { changeThemeReducer } from '../state/changeTheme-reducer'
 import { thunk, ThunkDispatch } from 'redux-thunk'
 
 //*

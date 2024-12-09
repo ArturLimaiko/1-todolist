@@ -1,7 +1,7 @@
 import Checkbox from '@mui/material/Checkbox'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { Todolist } from '../features/todolists/api/todolistsApi.types'
-import { Task } from '../features/todolists/api/tasksApi.types'
+import { DomainTask } from '../features/todolists/api/tasksApi.types'
 import { taskApi } from '../features/todolists/api/taskApi'
 import { EditableSpan } from 'common/components'
 import { AddItemForm } from 'common/components'
@@ -9,7 +9,7 @@ import { todolistsApi } from '../features/todolists/api/todolistsApi'
 
 export const AppHttpRequests = () => {
   const [todolists, setTodolists] = useState<Todolist[]>([])
-  const [tasks, setTasks] = useState<{ [key: string]: Task[] }>({})
+  const [tasks, setTasks] = useState<{ [key: string]: DomainTask[] }>({})
 
   useEffect(() => {
     todolistsApi.getTodolists().then((res) => {
@@ -56,7 +56,7 @@ export const AppHttpRequests = () => {
     })
   }
 
-  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: Task, todolistId: string) => {
+  const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>, task: DomainTask, todolistId: string) => {
     taskApi.changeTaskStatus({ e, todolistId, task }).then((res) => {
       const updatedTask = res.data.data.item
       setTasks((prevTasks) => ({
@@ -66,7 +66,7 @@ export const AppHttpRequests = () => {
     })
   }
 
-  const changeTaskTitleHandler = (title: string, task: Task) => {
+  const changeTaskTitleHandler = (title: string, task: DomainTask) => {
     taskApi.changeTaskTitle({ title, task }).then((res) => {
       const updateTaskTitle = res.data.data.item
       setTasks((prevTasks) => ({
@@ -92,7 +92,7 @@ export const AppHttpRequests = () => {
 
             {/* Tasks */}
             {!!tasks[tl.id] &&
-              tasks[tl.id].map((task: Task) => {
+              tasks[tl.id].map((task: DomainTask) => {
                 return (
                   <div key={task.id}>
                     <Checkbox checked={task.status === 2} onChange={(e) => changeTaskStatusHandler(e, task, tl.id)} />

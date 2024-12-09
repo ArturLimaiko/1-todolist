@@ -4,12 +4,14 @@ import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ListItem from '@mui/material/ListItem'
-import { TaskType, DomainTodolist } from 'app/AppWithRedux'
 import { useDispatch } from 'react-redux'
-import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../../../../../../../state/tasks-reducer'
+import { changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from '../../../../../model/tasks-reducer'
 import { getListItemSx } from './Task.style'
+import { DomainTodolist } from '../../../../../model/todolist-reducer'
+import { DomainTask } from '../../../../../api/tasksApi.types'
+import { TaskStatus } from 'common/enums'
 
-type Props = { task: TaskType; todolist: DomainTodolist }
+type Props = { task: DomainTask; todolist: DomainTodolist }
 
 export const Task = memo(({ task, todolist }: Props) => {
   const dispatch = useDispatch()
@@ -34,9 +36,14 @@ export const Task = memo(({ task, todolist }: Props) => {
   )
 
   return (
-    <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
+    <ListItem key={task.id} sx={getListItemSx(task.status === TaskStatus.Completed)}>
       <div>
-        <Checkbox color="default" size="small" checked={task.isDone} onChange={changeTaskStatusHandler} />
+        <Checkbox
+          color="default"
+          size="small"
+          checked={task.status === TaskStatus.Completed}
+          onChange={changeTaskStatusHandler}
+        />
         <EditableSpan oldTitle={task.title} onClick={updateTaskTitleHandler} />
       </div>
       <IconButton aria-label="delete" size="small" onClick={removeTaskHandler}>

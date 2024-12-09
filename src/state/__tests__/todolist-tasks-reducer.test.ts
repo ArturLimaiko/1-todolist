@@ -1,6 +1,6 @@
 import { TasksStateType, DomainTodolist } from '../../app/AppWithRedux'
-import { tasksReducer } from '../tasks-reducer'
-import { addTodolistAC, removeTodolistAC, todolistReducer } from '../todolist-reducer'
+import { tasksReducer } from '../../features/todolists/model/tasks-reducer'
+import { addTodolistAC, removeTodolistAC, todolistReducer } from '../../features/todolists/model/todolist-reducer'
 
 test('ids should be equals', () => {
   //стартовый стейт

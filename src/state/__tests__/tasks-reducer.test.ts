@@ -5,7 +5,7 @@ import {
   changeTaskTitleAC,
   removeTaskAC,
   tasksReducer,
-} from '../tasks-reducer'
+} from '../../features/todolists/model/tasks-reducer'
 import { TasksStateType } from '../../app/AppWithRedux'
 
 let startState: TasksStateType

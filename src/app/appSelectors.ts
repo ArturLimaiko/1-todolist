@@ -1,4 +1,4 @@
-import { RootState } from '../state/state'
+import { RootState } from './state'
 
 //вынесли selector в отдальную компоненту в функцию селектор
 export const selectThemeMode = (state: RootState) => state.changeTheme.themeMode

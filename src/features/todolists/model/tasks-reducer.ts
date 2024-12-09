@@ -1,27 +1,24 @@
 import { v1 } from 'uuid'
-import { removeTodolistACType } from './todolist-reducer'
-import { TasksStateType } from 'app/AppWithRedux'
+import { removeTodolistActionType } from './todolist-reducer'
+import { taskApi } from '../api/taskApi'
+import { AppDispatch } from 'app/state'
+import { TaskPriority, TaskStatus } from 'common/enums'
+import { DomainTask } from '../api/tasksApi.types'
 
-export type RemoveTaskACType = ReturnType<typeof removeTaskAC>
-export type AddTaskACType = ReturnType<typeof addTaskAC>
-export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
-export type changeTaskTitleACType = ReturnType<typeof changeTaskTitleAC>
-export type AddTodolistACType = ReturnType<typeof AddTodolistAC>
-
-//все типы action
-export type ActionsType =
-  | RemoveTaskACType
-  | AddTaskACType
-  | changeTaskStatusACType
-  | changeTaskTitleACType
-  | AddTodolistACType
-  | removeTodolistACType
+export type TasksStateType = {
+  [key: string]: DomainTask[]
+}
 
 //инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
 const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
   switch (action.type) {
+    case 'SET-TASKS': {
+      const stateCopy = { ...state }
+      stateCopy[action.payload.todolistId] = action.payload.tasks
+      return stateCopy
+    }
     case 'REMOVE-TASK':
       //если таска не равна => добавь ( иначе удалит)
       return {
@@ -29,7 +26,19 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         [action.todolistId]: state[action.todolistId].filter((f) => f.id !== action.taskId),
       }
     case 'ADD-TASK': {
-      const newTask = { id: v1(), title: action.title, isDone: false }
+      const newTask: DomainTask = {
+        title: action.title,
+        todoListId: action.todolistId,
+        startDate: '',
+        priority: TaskPriority.Low,
+        description: '',
+        deadline: '',
+        status: TaskStatus.New,
+        addedDate: '',
+        order: 0,
+        id: v1(),
+      }
+
       return {
         ...state,
         [action.todolistId]: [...state[action.todolistId], newTask],
@@ -57,9 +66,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         //создали пустой тудулист
       }
     case 'REMOVE-TODOLIST': {
-      // let copyState = {...state}
-      // delete copyState[action.todolistId]
-      // return copyState
       const {
         [action.todolistId]: [],
         ...rest
@@ -69,6 +75,14 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     default:
       return state
   }
+}
+
+// Action creators
+export const setTasksAC = (payload: { todolistId: string; tasks: DomainTask[] }) => {
+  return {
+    type: 'SET-TASKS',
+    payload,
+  } as const
 }
 
 export const removeTaskAC = (todolistId: string, taskId: string) => {
@@ -89,4 +103,29 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, newTitle: 
 
 export const AddTodolistAC = (title: string) => {
   return { type: 'ADD-TODOLIST', title, todolistId: v1() } as const
+}
+
+export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
+export type AddTaskActionType = ReturnType<typeof addTaskAC>
+export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>
+export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
+export type AddTodolistActionType = ReturnType<typeof AddTodolistAC>
+export type SetTasksActionType = ReturnType<typeof setTasksAC>
+
+//все типы action
+export type ActionsType =
+  | RemoveTaskActionType
+  | AddTaskActionType
+  | ChangeTaskStatusActionType
+  | ChangeTaskTitleActionType
+  | AddTodolistActionType
+  | removeTodolistActionType
+  | SetTasksActionType
+
+//Thunk
+export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
+  taskApi.getTask(todolistId).then((res) => {
+    const tasks = res.data.items
+    dispatch(setTasksAC({ todolistId, tasks }))
+  })
 }

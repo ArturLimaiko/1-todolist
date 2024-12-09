@@ -6,7 +6,7 @@ import {
   changeTodolistTitleAC,
   removeTodolistAC,
   todolistReducer,
-} from '../todolist-reducer'
+} from '../../features/todolists/model/todolist-reducer'
 
 let startState: DomainTodolist[]
 let todolistId_1: string

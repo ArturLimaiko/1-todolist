@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from 'react'
 import { AddItemForm } from 'common/components'
 import { DomainTodolist } from 'app/AppWithRedux'
-import { addTaskAC } from '../../../../../state/tasks-reducer'
+import { addTaskAC } from '../../../model/tasks-reducer'
 import { FilterTasksButtons } from './FilterTasksButtons/FilterTasksButtons'
 import { TodolistTitle } from './TodolistTitlte/TodolistTitle'
 import { useAppDispatch } from 'common/hooks'

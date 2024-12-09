@@ -1,4 +1,4 @@
-import { RootState } from '../../../state/state'
+import { RootState } from 'app/state'
 
 export const todolistsSelectors = (state: RootState) => state.todolist
 

@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { changeTodolistTitleAC, removeTodolistAC } from '../../../../../../state/todolist-reducer'
+import { changeTodolistTitleAC, removeTodolistAC } from '../../../../model/todolist-reducer'
 import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'

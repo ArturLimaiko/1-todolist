@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import Box from '@mui/material/Box'
 import { FilterValuesType, DomainTodolist } from 'app/AppWithRedux'
-import { changeTodolistFilterAC } from '../../../../../../state/todolist-reducer'
+import { changeTodolistFilterAC } from '../../../../model/todolist-reducer'
 import { FilterButtonContainerSx } from './FilterTasksButton.styles'
 import { useAppDispatch } from 'common/hooks'
 import { ButtonWithMemo } from '../../../button'
