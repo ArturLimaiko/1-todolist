@@ -1,5 +1,5 @@
-import { todolistReducer, TodolistsActionsType } from '../features/todolists/model/todolist-reducer'
-import { TasksActionsType, tasksReducer } from '../features/todolists/model/tasks-reducer'
+import { todolistReducer } from '../features/todolists/model/todolist-reducer'
+import { tasksReducer } from '../features/todolists/model/tasks-reducer'
 import { applyMiddleware, combineReducers, legacy_createStore as createStore, UnknownAction } from 'redux'
 import { changeThemeReducer } from '../state/changeTheme-reducer'
 import { thunk, ThunkDispatch } from 'redux-thunk'
@@ -21,7 +21,7 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>
 
 //все типы экшонов для всего App
-export type AppActionsType = TodolistsActionsType | TasksActionsType
+// export type AppActionsType = TodolistsActionsType | TasksActionsType
 
 // а это что бы можно было обращаться к стору из окна браузера
 //@ts-ignore

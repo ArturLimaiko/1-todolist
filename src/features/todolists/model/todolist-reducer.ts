@@ -1,13 +1,46 @@
-import { v1 } from 'uuid'
 import { Todolist } from '../api/todolistsApi.types'
 import { Dispatch } from 'redux'
 import { todolistsApi } from '../api/todolistsApi'
-import { AppActionsType } from 'app/store'
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
 export type DomainTodolist = Todolist & {
   filter: FilterValuesType
+}
+
+//инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
+const initialState: DomainTodolist[] = []
+
+export const todolistReducer = (
+  state: DomainTodolist[] = initialState,
+  action: TodolistsActionsType,
+): DomainTodolist[] => {
+  switch (action.type) {
+    case 'SET-TODOLISTS': {
+      return action.todolists.map((tl) => ({ ...tl, filter: 'all' }))
+    }
+    case 'REMOVE-TODOLIST':
+      return state.filter((t) => t.id !== action.todolistId)
+
+    case 'ADD-TODOLIST':
+      const newTodoList: DomainTodolist = {
+        id: action.payload.todolist.id,
+        title: action.payload.todolist.title,
+        filter: 'all',
+        addedDate: '',
+        order: 0,
+      }
+      return [newTodoList, ...state]
+
+    case 'CHANGE-TODOLIST-TITLE':
+      return state.map((t) => (t.id === action.todolistId ? { ...t, title: action.updatedTitle } : t))
+    case 'CHANGE-TODOLIST-FILTER':
+      const todolistId = action.todolistId
+      return state.map((f) => (f.id === todolistId ? { ...f, filter: action.filter } : f))
+
+    default:
+      return state
+  }
 }
 
 // Action creators
@@ -19,8 +52,8 @@ export const removeTodolistAC = (todolistId: string) => {
   return { type: 'REMOVE-TODOLIST', todolistId } as const
 }
 
-export const addTodolistAC = (title: string) => {
-  return { type: 'ADD-TODOLIST', title, todolistId: v1() } as const
+export const addTodolistAC = (payload: { todolist: Todolist }) => {
+  return { type: 'ADD-TODOLIST', payload } as const
 }
 
 export const changeTodolistTitleAC = (todolistId: string, updatedTitle: string) => {
@@ -29,36 +62,6 @@ export const changeTodolistTitleAC = (todolistId: string, updatedTitle: string) 
 
 export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesType) => {
   return { type: 'CHANGE-TODOLIST-FILTER', todolistId, filter } as const
-}
-
-//инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
-const initialState: DomainTodolist[] = []
-
-export const todolistReducer = (state: DomainTodolist[] = initialState, action: AppActionsType): DomainTodolist[] => {
-  switch (action.type) {
-    case 'SET-TODOLISTS': {
-      return action.todolists.map((tl) => ({ ...tl, filter: 'all' }))
-    }
-    case 'REMOVE-TODOLIST':
-      return state.filter((t) => t.id !== action.todolistId)
-    case 'ADD-TODOLIST':
-      const newTodoList: DomainTodolist = {
-        id: action.todolistId,
-        title: action.title,
-        filter: 'all',
-        addedDate: '',
-        order: 0,
-      }
-      return [...state, newTodoList]
-    case 'CHANGE-TODOLIST-TITLE':
-      return state.map((t) => (t.id === action.todolistId ? { ...t, title: action.updatedTitle } : t))
-    case 'CHANGE-TODOLIST-FILTER':
-      const todolistId = action.todolistId
-      return state.map((f) => (f.id === todolistId ? { ...f, filter: action.filter } : f))
-
-    default:
-      return state
-  }
 }
 
 // Actions types
@@ -76,10 +79,17 @@ export type TodolistsActionsType =
   | changeTodolistFilterActionType
 
 //Thunk
-export const fetchTodolistsThunk = (dispatch: Dispatch<AppActionsType>) => {
+export const fetchTodolistsTC = (dispatch: Dispatch) => {
   // внутри санки можно делать побочные эффекты (запросы на сервер)
   todolistsApi.getTodolists().then((res) => {
     // и диспатчить экшены (action) или другие санки (thunk)
     dispatch(setTodolistsAC(res.data))
+  })
+}
+
+export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  todolistsApi.createTodolist(title).then((res) => {
+    const newTodoTitle = res.data.data.item
+    dispatch(addTodolistAC({ todolist: newTodoTitle }))
   })
 }

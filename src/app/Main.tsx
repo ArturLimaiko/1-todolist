@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import Grid from '@mui/material/Grid2'
 import { useAppDispatch } from 'common/hooks'
-import { addTodolistAC } from '../features/todolists/model/todolist-reducer'
+import { addTodolistTC } from '../features/todolists/model/todolist-reducer'
 import { AddItemForm } from 'common/components'
 import { Todolists } from '../features/todolists/ui/Todolists/Todolists'
 
@@ -12,7 +12,7 @@ export const Main = () => {
 
   const addTodoList = useCallback(
     (title: string) => {
-      dispatch(addTodolistAC(title))
+      dispatch(addTodolistTC(title))
     },
     [dispatch],
   )
