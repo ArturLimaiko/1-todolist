@@ -1,15 +1,14 @@
 import React, { memo, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
-import { changeTodolistTitleAC, removeTodolistAC } from '../../../../model/todolist-reducer'
+import { changeTodolistTitleAC, DomainTodolist, removeTodolistTC } from '../../../../model/todolist-reducer'
 import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { DomainTodolist } from 'app/AppWithRedux'
+import { useAppDispatch } from 'common/hooks'
 
 type Props = { todolist: DomainTodolist }
 
 export const TodolistTitle = memo(({ todolist }: Props) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const updateTodolistTitleHandler = useCallback(
     (updateTitle: string) => {
@@ -19,7 +18,7 @@ export const TodolistTitle = memo(({ todolist }: Props) => {
   )
 
   const removeTodolistTitleHandler = useCallback(() => {
-    dispatch(removeTodolistAC(todolist.id))
+    dispatch(removeTodolistTC(todolist.id))
   }, [dispatch])
 
   return (
