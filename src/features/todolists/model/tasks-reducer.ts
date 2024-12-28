@@ -1,8 +1,9 @@
 import { v1 } from 'uuid'
 import { removeTodolistActionType } from './todolist-reducer'
 import { taskApi } from '../api/taskApi'
-import { AppDispatch, RootState } from 'app/store'
+import { AppActionsType, RootState } from 'app/store'
 import { DomainTask, UpdateTaskDomainModel } from '../api/tasksApi.types'
+import { Dispatch } from 'redux'
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -11,7 +12,7 @@ export type TasksStateType = {
 //инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
 const initialState: TasksStateType = {}
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: AppActionsType): TasksStateType => {
   switch (action.type) {
     case 'SET-TASKS': {
       const stateCopy = { ...state }
@@ -91,7 +92,7 @@ export type AddTodolistActionType = ReturnType<typeof AddTodolistAC>
 export type SetTasksActionType = ReturnType<typeof setTasksAC>
 
 //все типы action
-export type ActionsType =
+export type TasksActionsType =
   | RemoveTaskActionType
   | AddTaskActionType
   | updateTaskActionType
@@ -100,20 +101,20 @@ export type ActionsType =
   | SetTasksActionType
 
 //Thunk
-export const fetchTasksTC = (todolistId: string) => (dispatch: AppDispatch) => {
+export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<AppActionsType>) => {
   taskApi.getTask(todolistId).then((res) => {
     const tasks = res.data.items
     dispatch(setTasksAC({ todolistId, tasks }))
   })
 }
 
-export const removeTaskTC = (args: { todolistId: string; taskId: string }) => (dispatch: AppDispatch) => {
+export const removeTaskTC = (args: { todolistId: string; taskId: string }) => (dispatch: Dispatch<AppActionsType>) => {
   taskApi.removeTask(args).then(() => {
     dispatch(removeTaskAC(args))
   })
 }
 
-export const addTaskTC = (args: { todolistId: string; title: string }) => (dispatch: AppDispatch) => {
+export const addTaskTC = (args: { todolistId: string; title: string }) => (dispatch: Dispatch<AppActionsType>) => {
   taskApi.createTask(args).then((res) => {
     const newTask = res.data.data.item
     dispatch(addTaskAC({ task: newTask }))
@@ -126,7 +127,7 @@ export const updateTaskTC =
     todolistId: string
     domainModel: UpdateTaskDomainModel //Объект с данными, которые нужно изменить (например, status или title)
   }) =>
-  (dispatch: AppDispatch, getState: () => RootState) => {
+  (dispatch: Dispatch<AppActionsType>, getState: () => RootState) => {
     const state = getState() // используем getState(), чтобы получить все данные из Redux Store.
     const task = state.tasks[args.todolistId]?.find((t) => t.id === args.taskId)
     //В конкретном тудулисте (args.todolistId) ищем задачу по ID (args.taskId).

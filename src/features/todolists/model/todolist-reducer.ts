@@ -2,6 +2,7 @@ import { v1 } from 'uuid'
 import { Todolist } from '../api/todolistsApi.types'
 import { Dispatch } from 'redux'
 import { todolistsApi } from '../api/todolistsApi'
+import { AppActionsType } from 'app/store'
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
@@ -33,7 +34,7 @@ export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesT
 //инициализационное состояние что бы  при первом запуске редакс его видел ,значение которое вернется из нашего reducer'a.
 const initialState: DomainTodolist[] = []
 
-export const todolistReducer = (state: DomainTodolist[] = initialState, action: ActionsType): DomainTodolist[] => {
+export const todolistReducer = (state: DomainTodolist[] = initialState, action: AppActionsType): DomainTodolist[] => {
   switch (action.type) {
     case 'SET-TODOLISTS': {
       return action.todolists.map((tl) => ({ ...tl, filter: 'all' }))
@@ -67,7 +68,7 @@ export type addTodolistActionType = ReturnType<typeof addTodolistAC>
 export type changeTodolistTitleActionType = ReturnType<typeof changeTodolistTitleAC>
 export type changeTodolistFilterActionType = ReturnType<typeof changeTodolistFilterAC>
 
-export type ActionsType =
+export type TodolistsActionsType =
   | setTodolistsActionType
   | removeTodolistActionType
   | addTodolistActionType
@@ -75,7 +76,7 @@ export type ActionsType =
   | changeTodolistFilterActionType
 
 //Thunk
-export const fetchTodolistsThunk = (dispatch: Dispatch) => {
+export const fetchTodolistsThunk = (dispatch: Dispatch<AppActionsType>) => {
   // внутри санки можно делать побочные эффекты (запросы на сервер)
   todolistsApi.getTodolists().then((res) => {
     // и диспатчить экшены (action) или другие санки (thunk)
