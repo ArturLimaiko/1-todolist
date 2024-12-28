@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react'
-import { changeTodolistTitleAC, DomainTodolist, removeTodolistTC } from '../../../../model/todolist-reducer'
+import { DomainTodolist, removeTodolistTC, updateTodolistTitleTC } from '../../../../model/todolist-reducer'
 import { EditableSpan } from 'common/components/EditableSpan/EditableSpan'
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -11,8 +11,8 @@ export const TodolistTitle = memo(({ todolist }: Props) => {
   const dispatch = useAppDispatch()
 
   const updateTodolistTitleHandler = useCallback(
-    (updateTitle: string) => {
-      dispatch(changeTodolistTitleAC(todolist.id, updateTitle))
+    (title: string) => {
+      dispatch(updateTodolistTitleTC({ id: todolist.id, title }))
     },
     [dispatch],
   )

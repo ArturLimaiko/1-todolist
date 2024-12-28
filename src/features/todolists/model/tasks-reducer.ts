@@ -1,9 +1,9 @@
-import { v1 } from 'uuid'
 import { removeTodolistActionType } from './todolist-reducer'
 import { taskApi } from '../api/taskApi'
 import { RootState } from 'app/store'
 import { DomainTask, UpdateTaskDomainModel } from '../api/tasksApi.types'
 import { Dispatch } from 'redux'
+import { Todolist } from '../api/todolistsApi.types'
 
 export type TasksStateType = {
   [key: string]: DomainTask[]
@@ -43,7 +43,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
     case 'ADD-TODOLIST':
       return {
         ...state,
-        [action.todolistId]: [],
+        [action.args.todolist.id]: [],
         //создали пустой тудулист
       }
     case 'REMOVE-TODOLIST': {
@@ -81,8 +81,8 @@ export const updateTaskAC = (payload: { task: DomainTask }) => {
   } as const
 }
 
-export const AddTodolistAC = (title: string) => {
-  return { type: 'ADD-TODOLIST', title, todolistId: v1() } as const
+export const AddTodolistAC = (args: { todolist: Todolist }) => {
+  return { type: 'ADD-TODOLIST', args } as const
 }
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>

@@ -33,7 +33,7 @@ export const todolistReducer = (
       return [newTodoList, ...state]
 
     case 'CHANGE-TODOLIST-TITLE':
-      return state.map((t) => (t.id === action.todolistId ? { ...t, title: action.updatedTitle } : t))
+      return state.map((t) => (t.id === action.args.id ? { ...t, title: action.args.title } : t))
     case 'CHANGE-TODOLIST-FILTER':
       const todolistId = action.todolistId
       return state.map((f) => (f.id === todolistId ? { ...f, filter: action.filter } : f))
@@ -56,8 +56,8 @@ export const addTodolistAC = (args: { todolist: Todolist }) => {
   return { type: 'ADD-TODOLIST', args } as const
 }
 
-export const changeTodolistTitleAC = (todolistId: string, updatedTitle: string) => {
-  return { type: 'CHANGE-TODOLIST-TITLE', todolistId, updatedTitle } as const
+export const changeTodolistTitleAC = (args: { id: string; title: string }) => {
+  return { type: 'CHANGE-TODOLIST-TITLE', args } as const
 }
 
 export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesType) => {
@@ -97,5 +97,11 @@ export const addTodolistTC = (title: string) => (dispatch: AppDispatch) => {
 export const removeTodolistTC = (id: string) => (dispatch: AppDispatch) => {
   todolistsApi.removeTodolist(id).then(() => {
     dispatch(removeTodolistAC(id))
+  })
+}
+
+export const updateTodolistTitleTC = (args: { id: string; title: string }) => (dispatch: AppDispatch) => {
+  todolistsApi.updateTodolist(args).then(() => {
+    dispatch(changeTodolistTitleAC(args))
   })
 }
